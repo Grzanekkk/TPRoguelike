@@ -22,6 +22,8 @@ ASCharacter::ASCharacter()
 
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+
+	PrimaryWeaponSocketName = TEXT("RightHandSocket");
 }
 
 // Called when the game starts or when spawned
@@ -65,6 +67,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -87,10 +90,15 @@ void ASCharacter::MoveRight(float Value)
 	AddMovementInput(RightVector, Value);
 }
 
+void ASCharacter::Jump()
+{
+	ACharacter::Jump();
+}
+
 void ASCharacter::PrimaryAttack()
 {
 	// SpawnTM == SpawnTransformMatrix
-	FTransform SpawnTM = FTransform(GetControlRotation(), GetActorLocation());
+	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation(PrimaryWeaponSocketName));
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

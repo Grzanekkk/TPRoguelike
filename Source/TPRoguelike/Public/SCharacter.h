@@ -27,11 +27,16 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Camera")
 	class USpringArmComponent* SpringArmComp;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	FName PrimaryWeaponSocketName;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
+
+	void Jump();
 
 	void PrimaryAttack();
 
