@@ -12,6 +12,7 @@ AExplosiveBarrel::AExplosiveBarrel()
 	PrimaryActorTick.bCanEverTick = true;
 
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
+	MeshComp->SetSimulatePhysics(true);
 	RootComponent = MeshComp;
 
 	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));
@@ -19,13 +20,19 @@ AExplosiveBarrel::AExplosiveBarrel()
 
 	RadialForceComp = CreateDefaultSubobject<URadialForceComponent>(TEXT("RadialForceComp"));
 	RadialForceComp->SetupAttachment(RootComponent);
-
+	
 }
 
 // Called when the game starts or when spawned
 void AExplosiveBarrel::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//MeshComp->OnComponentHit.AddDynamic(this, &AExplosiveBarrel::Explode);
+}
+
+void AExplosiveBarrel::Explode()
+{
 	
 }
 
