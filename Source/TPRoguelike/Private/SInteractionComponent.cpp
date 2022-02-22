@@ -3,6 +3,8 @@
 
 #include "SInteractionComponent.h"
 
+#include "SGameplayInterface.h"
+
 // Sets default values for this component's properties
 USInteractionComponent::USInteractionComponent()
 {
@@ -12,7 +14,6 @@ USInteractionComponent::USInteractionComponent()
 
 	// ...
 }
-
 
 // Called when the game starts
 void USInteractionComponent::BeginPlay()
@@ -30,5 +31,33 @@ void USInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void USInteractionComponent::PrimaryInteract()
+{
+	AActor* Owner = GetOwner();
+
+	FVector TraceStart = FVector::ZeroVector;
+	FRotator EyeRotation;
+	GetOwner()->GetActorEyesViewPoint(TraceStart, EyeRotation);
+
+	FVector ShotDirection = EyeRotation.Vector();
+	FVector TraceEnd = TraceStart + ShotDirection * 1000;
+
+	FCollisionObjectQueryParams ObjectQueryParams;
+	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
+	
+	FHitResult Hit;
+	GetWorld()->LineTraceSingleByObjectType(Hit, TraceStart, TraceEnd, ObjectQueryParams);
+	AActor* HitActor = Hit.GetActor();
+	if(HitActor)
+	{
+		if(HitActor->Implements<ISGameplayInterface>())
+		{
+			APawn* OwnerPawn = Cast<APawn>(Owner);
+			
+			ISGameplayInterface::Execute_Interact(HitActor, OwnerPawn);
+		}
+	}
 }
 
