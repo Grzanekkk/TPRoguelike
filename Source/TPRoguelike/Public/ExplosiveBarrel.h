@@ -23,7 +23,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UMeshComponent* MeshComp;
 
-	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	class URadialForceComponent* RadialForceComp;
 	
 	// Called when the game starts or when spawned

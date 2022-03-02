@@ -6,6 +6,10 @@
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
+class UCameraComponent;
+class USpringArmComponent;
+class USInteractionComponent;
+
 UCLASS()
 class TPROGUELIKE_API ASCharacter : public ACharacter
 {
@@ -21,24 +25,32 @@ public:
 	ASCharacter();
 
 protected:
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-	class UCameraComponent* CameraComp;
+	UCameraComponent* CameraComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-	class USpringArmComponent* SpringArmComp;
+	USpringArmComponent* SpringArmComp;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
+	USInteractionComponent* InteractionComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName PrimaryWeaponSocketName;
 
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void MoveForward(float Value);
+	
 	void MoveRight(float Value);
-
+	
 	void Jump();
-
+	
 	void PrimaryAttack();
+	
+	void PrimaryInteract();
 
 public:	
 	// Called every frame
