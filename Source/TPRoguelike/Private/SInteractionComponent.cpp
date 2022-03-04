@@ -3,6 +3,7 @@
 
 #include "SInteractionComponent.h"
 
+#include "DrawDebugHelpers.h"
 #include "SGameplayInterface.h"
 
 // Sets default values for this component's properties
@@ -47,19 +48,34 @@ void USInteractionComponent::PrimaryInteract()
 	FCollisionObjectQueryParams ObjectQueryParams;
 	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
 	
-	FHitResult Hit;
-	GetWorld()->LineTraceSingleByObjectType(Hit, TraceStart, TraceEnd, ObjectQueryParams);
-	AActor* HitActor = Hit.GetActor();
-	if(HitActor)
+	//FHitResult Hit;
+	//GetWorld()->LineTraceSingleByObjectType(Hit, TraceStart, TraceEnd, ObjectQueryParams);
+
+	float Radius = 30.f;
+	
+	TArray<FHitResult> Hits;
+	FCollisionShape SweepShape;
+	SweepShape.SetSphere(Radius);
+	
+	bool bHitSuccess = GetWorld()->SweepMultiByObjectType(Hits, TraceStart, TraceEnd, FQuat::Identity, ObjectQueryParams, SweepShape);
+	FColor LineColor = bHitSuccess ? FColor::Green : FColor::Red;
+
+	for(FHitResult Hit : Hits)
 	{
-		if(HitActor->Implements<USGameplayInterface>())
+		AActor* HitActor = Hit.GetActor();
+		if(HitActor)
 		{
-			APawn* OwnerPawn = Cast<APawn>(Owner);
+			if(HitActor->Implements<USGameplayInterface>())
+			{
+				APawn* OwnerPawn = Cast<APawn>(Owner);
 			
-			ISGameplayInterface::Execute_Interact(HitActor, OwnerPawn);
+				ISGameplayInterface::Execute_Interact(HitActor, OwnerPawn);
+				break;
+			}
+			DrawDebugSphere(GetWorld(), Hit.ImpactNormal, Radius, 32, LineColor, false, 2.f);
 		}
 	}
-
-	DrawDebug
+	
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, LineColor, false, 2, 0, 2);
 }
 

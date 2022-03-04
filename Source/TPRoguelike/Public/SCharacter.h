@@ -19,6 +19,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AActor> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Animations")
+	UAnimMontage* PrimaryAttackAnim;
 	
 public:
 	// Sets default values for this character's properties

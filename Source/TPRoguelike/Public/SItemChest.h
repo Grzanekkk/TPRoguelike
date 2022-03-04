@@ -28,6 +28,9 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Meshes")
 	UStaticMeshComponent* LidMesh;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Particles")
+	UParticleSystem* OpenChestParticles;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

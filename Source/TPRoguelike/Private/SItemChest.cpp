@@ -3,6 +3,7 @@
 
 #include "SItemChest.h"
 
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -38,5 +39,7 @@ void ASItemChest::Tick(float DeltaTime)
 void ASItemChest::Interact_Implementation(APawn* InstigatorPawn)
 {
 	LidMesh->SetRelativeRotation(FRotator(TargetLidPitch, 0.f, 0.f));
+
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OpenChestParticles, GetActorLocation());
 }
 
