@@ -26,11 +26,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Meshes")
 	UStaticMeshComponent* BaseMesh;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Meshes")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Meshes")
 	UStaticMeshComponent* LidMesh;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Particles")
-	UParticleSystem* OpenChestParticles;
+	//UPROPERTY(EditDefaultsOnly, Category = "Particles")
+	//UParticleSystem* OpenChestParticles;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	class UParticleSystemComponent* ParticleComp;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

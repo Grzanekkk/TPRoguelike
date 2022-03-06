@@ -17,10 +17,10 @@ class TPROGUELIKE_API ASCharacter : public ACharacter
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Primary Attack")
 	TSubclassOf<AActor> ProjectileClass;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Animations")
+	UPROPERTY(EditDefaultsOnly, Category = "Primary Attack")
 	UAnimMontage* PrimaryAttackAnim;
 	
 public:
@@ -41,6 +41,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName PrimaryWeaponSocketName;
 
+	FTimerHandle TH_PrimaryAttack; 
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -52,6 +53,9 @@ protected:
 	void Jump();
 	
 	void PrimaryAttack();
+
+	UFUNCTION()
+	void PrimaryAttack_TimeElapsed();
 	
 	void PrimaryInteract();
 

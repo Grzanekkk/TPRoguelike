@@ -2,6 +2,9 @@
 
 
 #include "ExplosiveBarrel.h"
+
+#include "Chaos/ParticleIterator.h"
+#include "Kismet/GameplayStatics.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
@@ -17,6 +20,7 @@ AExplosiveBarrel::AExplosiveBarrel()
 
 	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));
 	ParticleComp->SetupAttachment(RootComponent);
+	ParticleComp->SetAutoActivate(false);
 
 	RadialForceComp = CreateDefaultSubobject<URadialForceComponent>(TEXT("RadialForceComp"));
 	RadialForceComp->SetupAttachment(RootComponent);
@@ -28,12 +32,19 @@ void AExplosiveBarrel::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//MeshComp->OnComponentHit.AddDynamic(this, &AExplosiveBarrel::Explode);
+	MeshComp->OnComponentHit.AddDynamic(this, &AExplosiveBarrel::OnComponentHit);
+}
+
+void AExplosiveBarrel::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	Explode();
 }
 
 void AExplosiveBarrel::Explode()
 {
-	
+	RadialForceComp->FireImpulse();
+	ParticleComp->Activate(true);
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionParticles, ParticleComp->GetComponentTransform());
 }
 
 // Called every frame

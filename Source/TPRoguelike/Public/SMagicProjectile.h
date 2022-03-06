@@ -26,6 +26,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UParticleSystemComponent* ParticleComp;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Particles")
+	UParticleSystem* ExplosionParticles;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

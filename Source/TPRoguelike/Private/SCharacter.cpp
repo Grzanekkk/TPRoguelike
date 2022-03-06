@@ -101,6 +101,13 @@ void ASCharacter::Jump()
 
 void ASCharacter::PrimaryAttack()
 {
+	PlayAnimMontage(PrimaryAttackAnim);
+
+	GetWorldTimerManager().SetTimer(TH_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.15f);
+}
+
+void ASCharacter::PrimaryAttack_TimeElapsed()
+{
 	// SpawnTM == SpawnTransformMatrix
 	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation(PrimaryWeaponSocketName));
 
@@ -108,6 +115,7 @@ void ASCharacter::PrimaryAttack()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+	DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 3.f, 8, FColor::Purple, false, 2.f);
 }
 
 void ASCharacter::PrimaryInteract()

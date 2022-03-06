@@ -25,10 +25,17 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	class URadialForceComponent* RadialForceComp;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Particles")
+	UParticleSystem* ExplosionParticles;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION(BlueprintCallable)
 	void Explode();
 
 public:	
