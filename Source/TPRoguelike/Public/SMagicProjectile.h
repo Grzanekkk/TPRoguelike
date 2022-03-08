@@ -17,7 +17,7 @@ public:
 
 protected:
     
-    UPROPERTY(VisibleAnywhere, Category = "Components")
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     class USphereComponent* SphereComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -26,7 +26,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UParticleSystemComponent* ParticleComp;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Particles")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Particles")
 	UParticleSystem* ExplosionParticles;
 
 	// Called when the game starts or when spawned
