@@ -38,6 +38,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void Explode();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void ExplodeBP();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
