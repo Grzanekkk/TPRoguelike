@@ -3,7 +3,6 @@
 
 #include "SMagicProjectile.h"
 
-#include "AITypes.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -32,6 +31,7 @@ ASMagicProjectile::ASMagicProjectile()
 void ASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	
 }
 
