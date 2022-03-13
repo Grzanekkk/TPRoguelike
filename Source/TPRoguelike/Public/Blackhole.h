@@ -27,10 +27,7 @@ protected:
 	class UProjectileMovementComponent* MovementComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	class UParticleSystemComponent* ExplosionParticleComp;
-
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	class UParticleSystemComponent* FlyingParticleComp;
+	class UParticleSystemComponent* BlackholeParticleComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	class URadialForceComponent* RadialForceComp;

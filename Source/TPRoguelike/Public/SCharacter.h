@@ -17,11 +17,27 @@ class TPROGUELIKE_API ASCharacter : public ACharacter
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly, Category = "Primary Attack")
-	TSubclassOf<AActor> ProjectileClass;
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
+	TSubclassOf<AActor> PrimaryAttack_ProjectileClass;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Primary Attack")
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
 	UAnimMontage* PrimaryAttackAnim;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
+	FName PrimaryWeaponSocketName;
+
+	FTimerHandle TH_PrimaryAttack; 
+
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
+	TSubclassOf<AActor> Q_Ability_ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
+	UAnimMontage* Q_AbilityAnim;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
+	FName Q_AbilityWeaponSocketName;
+
+	FTimerHandle TH_Q_Ability; 
 	
 public:
 	// Sets default values for this character's properties
@@ -38,10 +54,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
 	USInteractionComponent* InteractionComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	FName PrimaryWeaponSocketName;
-
-	FTimerHandle TH_PrimaryAttack; 
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -53,9 +65,12 @@ protected:
 	void Jump();
 	
 	void PrimaryAttack();
-
 	UFUNCTION()
 	void PrimaryAttack_TimeElapsed();
+
+	void Q_Ability();
+	UFUNCTION()
+	void Q_Ability_TimeElapsed();
 	
 	void PrimaryInteract();
 

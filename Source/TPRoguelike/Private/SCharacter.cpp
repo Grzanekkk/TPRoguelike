@@ -72,6 +72,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ASCharacter::PrimaryAttack);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ASCharacter::PrimaryInteract);
+	PlayerInputComponent->BindAction("Q_Ability", IE_Pressed, this, &ASCharacter::Q_Ability);
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -106,6 +107,8 @@ void ASCharacter::PrimaryAttack()
 	GetWorldTimerManager().SetTimer(TH_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.15f);
 }
 
+
+
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
 	// SpawnTM == SpawnTransformMatrix
@@ -115,8 +118,27 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParams.Instigator = this;
 	
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+	GetWorld()->SpawnActor<AActor>(PrimaryAttack_ProjectileClass, SpawnTM, SpawnParams);
 	DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 3.f, 8, FColor::Purple, false, 2.f);
+}
+
+void ASCharacter::Q_Ability()
+{
+	PlayAnimMontage(Q_AbilityAnim);
+
+	GetWorldTimerManager().SetTimer(TH_Q_Ability, this, &ASCharacter::Q_Ability_TimeElapsed, 0.15f);
+}
+
+void ASCharacter::Q_Ability_TimeElapsed()
+{
+	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation(PrimaryWeaponSocketName));
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.Instigator = this;
+	
+	GetWorld()->SpawnActor<AActor>(Q_Ability_ProjectileClass, SpawnTM, SpawnParams);
+	DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 8.f, 8, FColor::Purple, false, 2.f);
 }
 
 void ASCharacter::PrimaryInteract()

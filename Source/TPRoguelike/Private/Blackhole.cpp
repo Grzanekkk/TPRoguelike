@@ -20,16 +20,15 @@ ABlackhole::ABlackhole()
 
 	DestructionSphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("DestructionComp"));
 
-	ExplosionParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ExplosionParticleComp"));
-	ExplosionParticleComp->SetupAttachment(CollisionSphereComp);
-
-	FlyingParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("FlyingParticleComp"));
-	FlyingParticleComp->SetupAttachment(CollisionSphereComp);
+	BlackholeParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ExplosionParticleComp"));
+	BlackholeParticleComp->SetupAttachment(CollisionSphereComp);
+	BlackholeParticleComp->SetAutoActivate(true);
 
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
-	MovementComp->InitialSpeed = 1000.f;
+	MovementComp->InitialSpeed = 1500.f;
 	MovementComp->bRotationFollowsVelocity = true;
 	MovementComp->bInitialVelocityInLocalSpace = true;
+	MovementComp->ProjectileGravityScale = 0.0f;
 
 	RadialForceComp = CreateDefaultSubobject<URadialForceComponent>(TEXT("RadialForceComp"));
 	RadialForceComp->SetupAttachment(RootComponent);
@@ -45,6 +44,8 @@ void ABlackhole::BeginPlay()
 	Super::BeginPlay();
 
 	CollisionSphereComp->OnComponentHit.AddDynamic(this, &ABlackhole::StartSucking);
+
+	CollisionSphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
 	
 }
 
@@ -60,8 +61,7 @@ void ABlackhole::StartSucking(UPrimitiveComponent* HitComponent, AActor* OtherAc
 {
 	MovementComp->StopMovementImmediately();
 	MovementComp->Activate(false);
-	FlyingParticleComp->Activate(false);
-	ExplosionParticleComp->Activate(true);
+
 
 	//RadialForceComp->
 }
