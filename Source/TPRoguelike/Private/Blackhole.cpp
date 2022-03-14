@@ -13,15 +13,16 @@ ABlackhole::ABlackhole()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CollisionSphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphareComp"));
-	CollisionSphereComp->SetCollisionObjectType(ECC_WorldDynamic);
-	CollisionSphereComp->SetCollisionProfileName("Projectile");
-	RootComponent = CollisionSphereComp;
-
-	DestructionSphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("DestructionComp"));
-
+	DestructionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("DestructionSphere"));
+	DestructionSphere->SetSphereRadius(100);
+	RootComponent = DestructionSphere;
+	
+	SuckingSphere = CreateDefaultSubobject<USphereComponent>(TEXT("SuckingSphere"));
+	SuckingSphere->SetSphereRadius(2000);
+	SuckingSphere->SetupAttachment(DestructionSphere);
+	
 	BlackholeParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ExplosionParticleComp"));
-	BlackholeParticleComp->SetupAttachment(CollisionSphereComp);
+	BlackholeParticleComp->SetupAttachment(RootComponent);
 	BlackholeParticleComp->SetAutoActivate(true);
 
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
@@ -30,37 +31,45 @@ ABlackhole::ABlackhole()
 	MovementComp->bInitialVelocityInLocalSpace = true;
 	MovementComp->ProjectileGravityScale = 0.0f;
 
-	RadialForceComp = CreateDefaultSubobject<URadialForceComponent>(TEXT("RadialForceComp"));
-	RadialForceComp->SetupAttachment(RootComponent);
-	RadialForceComp->bImpulseVelChange = true;
-	RadialForceComp->Radius = 420.f;
-	RadialForceComp->ForceStrength = 1200;
-	RadialForceComp->bIgnoreOwningActor = true;
+	//RadialForceComp = CreateDefaultSubobject<URadialForceComponent>(TEXT("RadialForceComp"));
+	//RadialForceComp->SetupAttachment(RootComponent);
+	//RadialForceComp->bImpulseVelChange = true;
+	//RadialForceComp->Radius = 420.f;
+	//RadialForceComp->ForceStrength = 1200;
+	//RadialForceComp->bIgnoreOwningActor = true;
+
+	InitialLifeSpan = 5.f;
 }
 
 // Called when the game starts or when spawned
 void ABlackhole::BeginPlay()
 {
 	Super::BeginPlay();
-
-	CollisionSphereComp->OnComponentHit.AddDynamic(this, &ABlackhole::StartSucking);
-
-	CollisionSphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
 	
+	DestructionSphere->IgnoreActorWhenMoving(GetInstigator(), true);
 }
 
-// Called every frame
 void ABlackhole::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	TArray<UPrimitiveComponent*> OverlapingObjects;
+	SuckingSphere->GetOverlappingComponents(OverlapingObjects);	// Only works on objects that may be physically simulated
+	
+	for (UPrimitiveComponent* OverlapingObject : OverlapingObjects)
+	{
+		if (OverlapingObject && OverlapingObject->IsSimulatingPhysics() && OverlapingObject)
+		{
+			OverlapingObject->AddRadialForce(GetActorLocation(), SuckingSphere->GetScaledSphereRadius(), SuckingStrength, ERadialImpulseFalloff::RIF_Constant, true);
+		}
+	}
 }
 
 
 void ABlackhole::StartSucking(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	MovementComp->StopMovementImmediately();
-	MovementComp->Activate(false);
+	//MovementComp->StopMovementImmediately();
+	//MovementComp->Activate(false);
 
 
 	//RadialForceComp->

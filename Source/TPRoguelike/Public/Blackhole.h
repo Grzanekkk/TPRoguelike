@@ -15,13 +15,16 @@ public:
 
 	ABlackhole();
 
+	UPROPERTY(EditAnywhere, Category = "Physics")
+	float SuckingStrength = -2000.f;
+
 protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	class USphereComponent* DestructionSphereComp;
+	class USphereComponent* SuckingSphere;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	class USphereComponent* CollisionSphereComp;
+	class USphereComponent* DestructionSphere;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UProjectileMovementComponent* MovementComp;
