@@ -27,6 +27,7 @@ AExplosiveBarrel::AExplosiveBarrel()
 	RadialForceComp->bImpulseVelChange = true;
 	RadialForceComp->Radius = 420.f;
 	RadialForceComp->ForceStrength = 1200;
+	RadialForceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);
 	
 }
 

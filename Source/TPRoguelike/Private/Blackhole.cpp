@@ -58,7 +58,7 @@ void ABlackhole::Tick(float DeltaTime)
 	
 	for (UPrimitiveComponent* OverlapingObject : OverlapingObjects)
 	{
-		if (OverlapingObject && OverlapingObject->IsSimulatingPhysics() && OverlapingObject)
+		if (OverlapingObject && OverlapingObject->IsSimulatingPhysics())
 		{
 			OverlapingObject->AddRadialForce(GetActorLocation(), SuckingSphere->GetScaledSphereRadius(), SuckingStrength, ERadialImpulseFalloff::RIF_Constant, true);
 		}
