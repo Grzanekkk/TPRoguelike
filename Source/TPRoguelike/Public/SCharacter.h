@@ -9,14 +9,53 @@
 class UCameraComponent;
 class USpringArmComponent;
 class USInteractionComponent;
+class USAttributeComponent;
 
 UCLASS()
 class TPROGUELIKE_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
+	
+public:
+	// Sets default values for this character's properties
+	ASCharacter();
 
 protected:
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Components")
+	UCameraComponent* CameraComp;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Components")
+	USpringArmComponent* SpringArmComp;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Components")
+	USInteractionComponent* InteractionComponent;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	USAttributeComponent* AttributeComponent;
+
+	
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	void MoveForward(float Value);
+	
+	void MoveRight(float Value);
+	
+	void Jump();
+	
+	void PrimaryAttack();
+	UFUNCTION()
+	void PrimaryAttack_TimeElapsed();
+
+	void Q_Ability();
+	UFUNCTION()
+	void Q_Ability_TimeElapsed();
+	
+	void PrimaryInteract();
+
+protected:
+	// Abilities
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
 	TSubclassOf<AActor> PrimaryAttack_ProjectileClass;
 
@@ -38,41 +77,6 @@ protected:
 	FName Q_AbilityWeaponSocketName;
 
 	FTimerHandle TH_Q_Ability; 
-	
-public:
-	// Sets default values for this character's properties
-	ASCharacter();
-
-protected:
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-	UCameraComponent* CameraComp;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-	USpringArmComponent* SpringArmComp;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
-	USInteractionComponent* InteractionComponent;
-
-	
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	void MoveForward(float Value);
-	
-	void MoveRight(float Value);
-	
-	void Jump();
-	
-	void PrimaryAttack();
-	UFUNCTION()
-	void PrimaryAttack_TimeElapsed();
-
-	void Q_Ability();
-	UFUNCTION()
-	void Q_Ability_TimeElapsed();
-	
-	void PrimaryInteract();
 
 public:	
 	// Called every frame
