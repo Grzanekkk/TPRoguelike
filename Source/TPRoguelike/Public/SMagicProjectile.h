@@ -39,6 +39,9 @@ protected:
 
 	UFUNCTION()
 	void OnComponentOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Damage")
+	void Explode();
 
 public:	
 	// Called every frame
