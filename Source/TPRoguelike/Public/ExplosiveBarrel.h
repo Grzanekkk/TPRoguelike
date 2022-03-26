@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "ExplosiveBarrel.generated.h"
 
@@ -25,6 +26,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	class URadialForceComponent* RadialForceComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	USphereComponent* ExplosionRadius;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Particles")
 	UParticleSystem* ExplosionParticles;

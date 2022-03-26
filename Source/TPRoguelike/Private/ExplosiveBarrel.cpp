@@ -22,6 +22,8 @@ AExplosiveBarrel::AExplosiveBarrel()
 	ParticleComp->SetupAttachment(RootComponent);
 	ParticleComp->SetAutoActivate(false);
 
+	
+
 	RadialForceComp = CreateDefaultSubobject<URadialForceComponent>(TEXT("RadialForceComp"));
 	RadialForceComp->SetupAttachment(RootComponent);
 	RadialForceComp->bImpulseVelChange = true;
