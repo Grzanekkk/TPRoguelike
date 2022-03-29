@@ -18,6 +18,12 @@ public:
 
 protected:
 
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float Radius;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float Damage;
+	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UParticleSystemComponent* ParticleComp;
 
@@ -28,7 +34,7 @@ protected:
 	class URadialForceComponent* RadialForceComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	USphereComponent* ExplosionRadius;
+	USphereComponent* ExplosionRadiusSphere;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Particles")
 	UParticleSystem* ExplosionParticles;
