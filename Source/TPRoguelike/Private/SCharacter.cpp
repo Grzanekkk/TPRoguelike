@@ -110,8 +110,6 @@ void ASCharacter::PrimaryAttack()
 	GetWorldTimerManager().SetTimer(TH_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.15f);
 }
 
-
-
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
 	if(ensure(PrimaryAttack_ProjectileClass))

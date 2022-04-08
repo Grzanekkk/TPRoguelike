@@ -11,7 +11,6 @@ ASTargetDummy::ASTargetDummy()
 
 	AttributeComp = CreateDefaultSubobject<USAttributeComponent>("AttribComponent");
 	AttributeComp->OnHealthChanged.AddDynamic(this, &ASTargetDummy::OnHealthChanged);
-
 }
 
 void ASTargetDummy::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth,
