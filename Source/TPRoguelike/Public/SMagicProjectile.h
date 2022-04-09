@@ -24,7 +24,7 @@ protected:
 	class UProjectileMovementComponent* MovementComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	class UParticleSystemComponent* ParticleComp;
+	UParticleSystemComponent* ParticleComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Particles")
 	UParticleSystem* ExplosionParticles;
@@ -42,9 +42,4 @@ protected:
 	
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Damage")
 	void Explode();
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 };
