@@ -8,6 +8,7 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SAttributeComponent.h"
+#include "SProjectileBase.h"
 
 // Sets default values
 ASCharacter::ASCharacter()

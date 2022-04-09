@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "SProjectileBase.h"
 #include "SMagicProjectile.generated.h"
 
 UCLASS()
-class TPROGUELIKE_API ASMagicProjectile : public AActor
+class TPROGUELIKE_API ASMagicProjectile : public ASProjectileBase
 {
 	GENERATED_BODY()
 	
@@ -16,30 +16,15 @@ public:
 	ASMagicProjectile();
 
 protected:
-    
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-    class USphereComponent* SphereComp;
-
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	class UProjectileMovementComponent* MovementComp;
-
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UParticleSystemComponent* ParticleComp;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Particles")
-	UParticleSystem* ExplosionParticles;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float Damage;
-
-	// Called when the game starts or when spawned
+	
 	virtual void BeginPlay() override;
 
 	virtual void PostInitializeComponents() override;
-
-	UFUNCTION()
-	void OnComponentOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Damage")
-	void Explode();
+	virtual void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
+	
+	//virtual void Explode_Implementation() override;
 };

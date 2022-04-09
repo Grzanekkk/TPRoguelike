@@ -6,9 +6,6 @@
 #include "SProjectileBase.h"
 #include "SDashProjectile.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class TPROGUELIKE_API ASDashProjectile : public ASProjectileBase
 {

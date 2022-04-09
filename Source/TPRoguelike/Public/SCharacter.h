@@ -10,6 +10,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class USInteractionComponent;
 class USAttributeComponent;
+class ASProjectileBase;
 
 UCLASS()
 class TPROGUELIKE_API ASCharacter : public ACharacter
@@ -55,9 +56,10 @@ protected:
 	void PrimaryInteract();
 
 protected:
+	////////////////////////////////////////////////////
 	// Abilities
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
-	TSubclassOf<AActor> PrimaryAttack_ProjectileClass;
+	TSubclassOf<ASProjectileBase> PrimaryAttack_ProjectileClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
 	UAnimMontage* PrimaryAttackAnim;
@@ -68,7 +70,7 @@ protected:
 	FTimerHandle TH_PrimaryAttack; 
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
-	TSubclassOf<AActor> Q_Ability_ProjectileClass;
+	TSubclassOf<ASProjectileBase> Q_Ability_ProjectileClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
 	UAnimMontage* Q_AbilityAnim;
