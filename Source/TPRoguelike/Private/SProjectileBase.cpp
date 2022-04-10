@@ -18,14 +18,16 @@ ASProjectileBase::ASProjectileBase()
 
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	MovementComp->bRotationFollowsVelocity = true;
-	MovementComp->InitialSpeed = 1000.f;
 	MovementComp->bInitialVelocityInLocalSpace = true;
+	MovementComp->InitialSpeed = 1000.f;
+	MovementComp->ProjectileGravityScale = 0.0f;
 }
 
 void ASProjectileBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	SphereComp->OnComponentHit.AddDynamic(this, &ASProjectileBase::OnComponentHit);
+	//SphereComp->On
 }
 
 void ASProjectileBase::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,

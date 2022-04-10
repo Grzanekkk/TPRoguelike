@@ -108,6 +108,7 @@ void ASCharacter::PrimaryAttack()
 {
 	PlayAnimMontage(PrimaryAttackAnim);
 
+	// Delay before s
 	GetWorldTimerManager().SetTimer(TH_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.15f);
 }
 
