@@ -5,6 +5,8 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "SCharacter.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 ASMagicProjectile::ASMagicProjectile()
@@ -17,6 +19,13 @@ void ASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	SphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
+
+	//ASCharacter* InstigatorCharacter = Cast<ASCharacter>(GetInstigator());
+	//if(InstigatorCharacter)
+	//{
+	//	InstigatorCharacter->GetCapsuleComponent()->IgnoreActorWhenMoving(this, true);
+	//}
+	//MovementComp->
 }
 
 void ASMagicProjectile::PostInitializeComponents()
@@ -33,7 +42,10 @@ void ASMagicProjectile::OnComponentHit(UPrimitiveComponent* HitComponent, AActor
 		{
 			AttributeComponent->ApplyHealthChange(-Damage);
 		}
+		Super::Explode_Implementation();
 	}
-
-	Super::Explode_Implementation();
+	else
+	{
+		return;
+	}
 }

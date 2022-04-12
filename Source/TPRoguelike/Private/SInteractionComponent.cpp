@@ -41,16 +41,12 @@ void USInteractionComponent::PrimaryInteract()
 	FVector TraceStart = FVector::ZeroVector;
 	FRotator EyeRotation;
 	GetOwner()->GetActorEyesViewPoint(TraceStart, EyeRotation);
-
 	FVector ShotDirection = EyeRotation.Vector();
 	FVector TraceEnd = TraceStart + ShotDirection * 1000;
 
 	FCollisionObjectQueryParams ObjectQueryParams;
 	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
 	
-	//FHitResult Hit;
-	//GetWorld()->LineTraceSingleByObjectType(Hit, TraceStart, TraceEnd, ObjectQueryParams);
-
 	float Radius = 30.f;
 	
 	TArray<FHitResult> Hits;

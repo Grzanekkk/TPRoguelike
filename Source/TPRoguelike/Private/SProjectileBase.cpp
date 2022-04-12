@@ -11,6 +11,7 @@ ASProjectileBase::ASProjectileBase()
 {
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	SphereComp->SetCollisionProfileName("Projectile");
+	//SphereComp->SetCollisionObjectType(ECC_EngineTraceChannel1); // Projectile
 	RootComponent = SphereComp;
 
 	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));
@@ -27,12 +28,16 @@ void ASProjectileBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	SphereComp->OnComponentHit.AddDynamic(this, &ASProjectileBase::OnComponentHit);
-	//SphereComp->On
+	AActor* InstigatorActor = Cast<AActor>(GetInstigator());
+	SphereComp->IgnoreActorWhenMoving(InstigatorActor, true);
 }
 
 void ASProjectileBase::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	if(OtherActor == Cast<AActor>(GetInstigator()))
+		return;
+	
 	Explode();
 }
 

@@ -9,8 +9,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SAttributeComponent.h"
 #include "SProjectileBase.h"
+#include "Components/CapsuleComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
-// Sets default values
+ // Sets default values
 ASCharacter::ASCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -116,15 +118,39 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 {
 	if(ensure(PrimaryAttack_ProjectileClass))
 	{
+		//AController* Controller = GetController();
+		
+		FVector TraceStart = FVector::ZeroVector;
+		FRotator EyeRotation;
+		//GetOwner()->GetActorEyesViewPoint(TraceStart, EyeRotation);
+		Controller->GetPlayerViewPoint(TraceStart, EyeRotation);
+		FVector ShotDirection = EyeRotation.Vector();
+		FVector TraceEnd = TraceStart + ShotDirection * 5000;
+
+		FHitResult HitResult;
+		bool bHitSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Visibility);
+		
+		if(bHitSuccess)
+		{
+			TraceEnd = HitResult.ImpactPoint;
+		}
+
+		FVector HandLocation = GetMesh()->GetSocketLocation(PrimaryWeaponSocketName);
+		FRotator ProjectileSpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation, TraceEnd);
+		
 		// SpawnTM == SpawnTransformMatrix
-		FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation(PrimaryWeaponSocketName));
+		FTransform SpawnTM = FTransform(ProjectileSpawnRotation, HandLocation);
 
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.Instigator = this;
 	
-		GetWorld()->SpawnActor<AActor>(PrimaryAttack_ProjectileClass, SpawnTM, SpawnParams);
+		AActor* ProjectileSpawned = GetWorld()->SpawnActor<AActor>(PrimaryAttack_ProjectileClass, SpawnTM, SpawnParams);
 		DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 3.f, 8, FColor::Purple, false, 2.f);
+
+		DrawDebugSphere(GetWorld(), TraceEnd, 3.f, 8, FColor::Blue, true, 2.f);
+
+		GetCapsuleComponent()->IgnoreActorWhenMoving(ProjectileSpawned, true);
 	}
 }
 
