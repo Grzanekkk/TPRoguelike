@@ -38,6 +38,8 @@ protected:
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	virtual void PostInitializeComponents() override;
 
 	void MoveForward(float Value);
 	
@@ -55,9 +57,9 @@ protected:
 	
 	void PrimaryInteract();
 
-protected:
+	
 	////////////////////////////////////////////////////
-	// Abilities
+	/// Abilities
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
 	TSubclassOf<ASProjectileBase> PrimaryAttack_ProjectileClass;
 
@@ -78,7 +80,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
 	FName Q_AbilityWeaponSocketName;
 
-	FTimerHandle TH_Q_Ability; 
+	FTimerHandle TH_Q_Ability;
+
+
+	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth);
 
 public:	
 	// Called every frame
