@@ -40,7 +40,8 @@ void USInteractionComponent::PrimaryInteract()
 
 	FVector TraceStart = FVector::ZeroVector;
 	FRotator EyeRotation;
-	GetOwner()->GetActorEyesViewPoint(TraceStart, EyeRotation);
+	//GetOwner()->GetActorEyesViewPoint(TraceStart, EyeRotation);
+	Owner->GetInstigatorController()->GetPlayerViewPoint(TraceStart, EyeRotation);
 	FVector ShotDirection = EyeRotation.Vector();
 	FVector TraceEnd = TraceStart + ShotDirection * 1000;
 

@@ -24,16 +24,16 @@ public:
 protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
-	UCameraComponent* CameraComp;
+	TObjectPtr<UCameraComponent> CameraComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
-	USpringArmComponent* SpringArmComp;
+	TObjectPtr<USpringArmComponent> SpringArmComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
-	USInteractionComponent* InteractionComponent;
+	TObjectPtr<USInteractionComponent> InteractionComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
-	USAttributeComponent* AttributeComponent;
+	TObjectPtr<USAttributeComponent> AttributeComponent;
 
 	
 	// Called when the game starts or when spawned
@@ -64,7 +64,7 @@ protected:
 	TSubclassOf<ASProjectileBase> PrimaryAttack_ProjectileClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
-	UAnimMontage* PrimaryAttackAnim;
+	TObjectPtr<UAnimMontage> PrimaryAttackAnim;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
 	FName PrimaryWeaponSocketName;
@@ -75,14 +75,14 @@ protected:
 	TSubclassOf<ASProjectileBase> Q_Ability_ProjectileClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
-	UAnimMontage* Q_AbilityAnim;
+	TObjectPtr<UAnimMontage> Q_AbilityAnim;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
 	FName Q_AbilityWeaponSocketName;
 
 	FTimerHandle TH_Q_Ability;
 
-
+	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth);
 
 public:	

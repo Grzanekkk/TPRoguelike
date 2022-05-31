@@ -75,7 +75,10 @@ void ASCharacter::Tick(float DeltaTime)
 void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth,
 	float DeltaHealth)
 {
-	if(NewHealth <= 0)
+	if (NewHealth <= 0)
+	{
+		return;
+	}
 }
 
 // Called to bind functionality to input
@@ -136,7 +139,6 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 		
 		FVector TraceStart = FVector::ZeroVector;
 		FRotator EyeRotation;
-		//GetOwner()->GetActorEyesViewPoint(TraceStart, EyeRotation);
 		Controller->GetPlayerViewPoint(TraceStart, EyeRotation);
 		FVector ShotDirection = EyeRotation.Vector();
 		FVector TraceEnd = TraceStart + ShotDirection * 5000;
