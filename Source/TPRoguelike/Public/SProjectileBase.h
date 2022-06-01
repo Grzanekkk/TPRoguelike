@@ -20,9 +20,14 @@ public:
 	ASProjectileBase();
 
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
 	UParticleSystem* ImpactVFX;
 
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
+	UParticleSystem* SpawnVFX;	// Muzzle Flash
+
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UParticleSystemComponent* ParticleComp;
 
@@ -34,6 +39,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UAudioComponent> AudioComp;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Effects|Camera Shake")
+	TSubclassOf<UCameraShakeBase> ImpactCameraShake;
 
 
 	UFUNCTION()
@@ -49,9 +57,9 @@ protected:
 
 	////////////////////////////////////////////////////
 	/// Sounds
-	UPROPERTY(EditDefaultsOnly, Category = "SFX")
+	UPROPERTY(EditDefaultsOnly, Category = "Effects|Sounds")
 	TObjectPtr<USoundCue> FlightSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = "SFX")
+	UPROPERTY(EditDefaultsOnly, Category = "Effects|Sounds")
 	TObjectPtr<USoundCue> ImpactSound;
 };

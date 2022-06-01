@@ -11,6 +11,7 @@
 #include "SProjectileBase.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 //////////////////////////////////////////////////////
 //////	Setups
@@ -178,12 +179,13 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.Instigator = this;
 	
-		AActor* ProjectileSpawned = GetWorld()->SpawnActor<AActor>(PrimaryAttack_ProjectileClass, SpawnTM, SpawnParams);
-		DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 3.f, 8, FColor::Purple, false, 2.f);
+		ASProjectileBase* ProjectileSpawned = GetWorld()->SpawnActor<ASProjectileBase>(PrimaryAttack_ProjectileClass, SpawnTM, SpawnParams);
 
-		DrawDebugSphere(GetWorld(), TraceEnd, 3.f, 8, FColor::Blue, true, 2.f);
-
+		UGameplayStatics::SpawnEmitterAttached(ProjectileSpawned->SpawnVFX, GetMesh(), PrimaryWeaponSocketName);
 		GetCapsuleComponent()->IgnoreActorWhenMoving(ProjectileSpawned, true);
+
+		DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 3.f, 8, FColor::Purple, false, 2.f);
+		DrawDebugSphere(GetWorld(), TraceEnd, 3.f, 8, FColor::Blue, true, 2.f);
 	}
 }
 
