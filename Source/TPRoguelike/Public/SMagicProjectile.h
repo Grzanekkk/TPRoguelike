@@ -25,6 +25,5 @@ protected:
 	virtual void PostInitializeComponents() override;
 	
 	virtual void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
-	
-	//virtual void Explode_Implementation() override;
+
 };

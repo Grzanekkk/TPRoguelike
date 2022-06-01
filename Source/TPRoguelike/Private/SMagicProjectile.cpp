@@ -19,13 +19,6 @@ void ASMagicProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	SphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
-
-	//ASCharacter* InstigatorCharacter = Cast<ASCharacter>(GetInstigator());
-	//if(InstigatorCharacter)
-	//{
-	//	InstigatorCharacter->GetCapsuleComponent()->IgnoreActorWhenMoving(this, true);
-	//}
-	//MovementComp->
 }
 
 void ASMagicProjectile::PostInitializeComponents()

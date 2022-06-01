@@ -36,7 +36,6 @@ protected:
 	TObjectPtr<USAttributeComponent> AttributeComponent;
 
 	
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
 	virtual void PostInitializeComponents() override;
@@ -89,6 +88,8 @@ protected:
 	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth);
 
 	void OnDeath();
+
+
 
 public:	
 	// Called every frame

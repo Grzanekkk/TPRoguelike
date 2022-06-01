@@ -2,9 +2,11 @@
 
 #include "SProjectileBase.h"
 #include "Components/SphereComponent.h"
+#include "Components/AudioComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ASProjectileBase::ASProjectileBase()
@@ -22,6 +24,9 @@ ASProjectileBase::ASProjectileBase()
 	MovementComp->bInitialVelocityInLocalSpace = true;
 	MovementComp->InitialSpeed = 1000.f;
 	MovementComp->ProjectileGravityScale = 0.0f;
+
+	AudioComp = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComp"));
+	AudioComp->SetupAttachment(RootComponent);
 }
 
 void ASProjectileBase::PostInitializeComponents()
@@ -30,6 +35,14 @@ void ASProjectileBase::PostInitializeComponents()
 	SphereComp->OnComponentHit.AddDynamic(this, &ASProjectileBase::OnComponentHit);
 	AActor* InstigatorActor = Cast<AActor>(GetInstigator());
 	SphereComp->IgnoreActorWhenMoving(InstigatorActor, true);
+}
+
+void ASProjectileBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	AudioComp->SetSound(FlightSound);
+	AudioComp->Play();
 }
 
 void ASProjectileBase::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
@@ -46,6 +59,7 @@ void ASProjectileBase::Explode_Implementation()
 	if(ensure(!IsPendingKill()))
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactVFX, GetActorLocation(), GetActorRotation());
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, GetActorLocation());
 
 		Destroy();
 	}
