@@ -26,7 +26,7 @@ protected:
 	// HealthMax, Stamina, Mana, CritChance;
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	bool IsAlive() const; 
 
 	UPROPERTY(BlueprintAssignable)

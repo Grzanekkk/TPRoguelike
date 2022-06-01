@@ -82,8 +82,13 @@ protected:
 
 	FTimerHandle TH_Q_Ability;
 
+
+	////////////////////////////////////////////////////
+	/// Health + Death
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth);
+
+	void OnDeath();
 
 public:	
 	// Called every frame

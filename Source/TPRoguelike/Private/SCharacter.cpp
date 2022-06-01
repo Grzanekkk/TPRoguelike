@@ -12,7 +12,8 @@
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
- // Sets default values
+//////////////////////////////////////////////////////
+//////	Setups
 ASCharacter::ASCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -35,13 +36,6 @@ ASCharacter::ASCharacter()
 	PrimaryWeaponSocketName = TEXT("RightHandSocket");
 }
 
-// Called when the game starts or when spawned
-void ASCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
 void ASCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
@@ -49,7 +43,15 @@ void ASCharacter::PostInitializeComponents()
 	AttributeComponent->OnHealthChanged.AddDynamic(this, &ASCharacter::OnHealthChanged);
 }
 
- // Called every frame
+
+//////////////////////////////////////////////////////
+//////	BeginPlay + Tick
+void ASCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
+
 void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -72,16 +74,28 @@ void ASCharacter::Tick(float DeltaTime)
 }
 
 
+//////////////////////////////////////////////////////
+//////	Health + Death
 void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth,
 	float DeltaHealth)
 {
-	if (NewHealth <= 0)
+	if (NewHealth <= 0.f && DeltaHealth < 0.0f)	// "DeltaHealth" checks if we ware damaged of healed
 	{
-		return;
+		OnDeath();
 	}
 }
 
-// Called to bind functionality to input
+void ASCharacter::OnDeath()
+{
+	TObjectPtr<APlayerController> PlayerControler = Cast<APlayerController>(Controller);
+	DisableInput(PlayerControler);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+
+//////////////////////////////////////////////////////
+//////	Movement + interactions
 void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -123,6 +137,9 @@ void ASCharacter::Jump()
 	ACharacter::Jump();
 }
 
+
+//////////////////////////////////////////////////////
+//////	Abilities
 void ASCharacter::PrimaryAttack()
 {
 	PlayAnimMontage(PrimaryAttackAnim);
