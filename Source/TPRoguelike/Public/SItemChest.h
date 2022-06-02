@@ -28,9 +28,6 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Meshes")
 	UStaticMeshComponent* LidMesh;
-
-	//UPROPERTY(EditDefaultsOnly, Category = "Particles")
-	//UParticleSystem* OpenChestParticles;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UParticleSystemComponent* ParticleComp;
@@ -41,7 +38,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	//GameplayInterface
 
 };
