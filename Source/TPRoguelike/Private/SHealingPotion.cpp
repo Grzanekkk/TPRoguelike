@@ -25,12 +25,15 @@ void ASHealingPotion::UsePotion(APawn* InstigatorPawn)
 
 	if (bCanBeInteracted)
 	{
-		ASPotionBase::UsePotion(InstigatorPawn);
-
 		USAttributeComponent* AttributeComponent = Cast<USAttributeComponent>(InstigatorPawn->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (AttributeComponent)
 		{
-			AttributeComponent->ApplyHealthChange(HealingAmount);
+			if (!AttributeComponent->IsFullyHealed())
+			{
+				AttributeComponent->ApplyHealthChange(HealingAmount);
+
+				ASPotionBase::UsePotion(InstigatorPawn);
+			}
 		}
 	}
 }

@@ -20,6 +20,16 @@ bool USAttributeComponent::IsAlive() const
 	return false;
 }
 
+bool USAttributeComponent::IsFullyHealed() const
+{
+	if (Health == MaxHealth)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool USAttributeComponent::ApplyHealthChange(float HealthDelta)
 {
 	Health += HealthDelta;

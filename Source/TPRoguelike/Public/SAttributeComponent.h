@@ -32,6 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	bool IsAlive() const; 
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsFullyHealed() const;
+
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
 
