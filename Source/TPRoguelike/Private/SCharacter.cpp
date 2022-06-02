@@ -91,7 +91,7 @@ void ASCharacter::OnDeath()
 	TObjectPtr<APlayerController> PlayerControler = Cast<APlayerController>(Controller);
 	DisableInput(PlayerControler);
 
-	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	//GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 
