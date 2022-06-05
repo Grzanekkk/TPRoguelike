@@ -15,12 +15,10 @@ class TPROGUELIKE_API USBTService_CheckAttackRange : public UBTService
 	GENERATED_BODY()
 	
 
-
-
 protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "AI")
 	float AcceptableDistance = 1000.f;
 
 	UPROPERTY(EditAnywhere, Category = "AI")

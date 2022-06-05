@@ -162,7 +162,7 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 		FVector TraceEnd = TraceStart + ShotDirection * 5000;
 
 		FHitResult HitResult;
-		bool bHitSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Visibility);
+		bool bHitSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_WorldStatic);
 		
 		if(bHitSuccess)
 		{
