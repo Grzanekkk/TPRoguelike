@@ -9,11 +9,8 @@
 // Sets default values for this component's properties
 USInteractionComponent::USInteractionComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 // Called when the game starts
@@ -21,8 +18,6 @@ void USInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
 }
 
 
@@ -31,7 +26,6 @@ void USInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
 }
 
 void USInteractionComponent::PrimaryInteract()
@@ -40,7 +34,6 @@ void USInteractionComponent::PrimaryInteract()
 
 	FVector TraceStart = FVector::ZeroVector;
 	FRotator EyeRotation;
-	//GetOwner()->GetActorEyesViewPoint(TraceStart, EyeRotation);
 	Owner->GetInstigatorController()->GetPlayerViewPoint(TraceStart, EyeRotation);
 	FVector ShotDirection = EyeRotation.Vector();
 	FVector TraceEnd = TraceStart + ShotDirection * 1000;

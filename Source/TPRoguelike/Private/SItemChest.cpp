@@ -2,15 +2,11 @@
 
 
 #include "SItemChest.h"
-
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 
-
-// Sets default values
 ASItemChest::ASItemChest()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BaseMesh"));
@@ -24,17 +20,14 @@ ASItemChest::ASItemChest()
 	LidMesh->SetupAttachment(BaseMesh);
 
 	TargetLidPitch = 110.f;
-
 }
 
-// Called when the game starts or when spawned
 void ASItemChest::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void ASItemChest::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -43,9 +36,7 @@ void ASItemChest::Tick(float DeltaTime)
 
 void ASItemChest::Interact_Implementation(APawn* InstigatorPawn)
 {
-	//LidMesh->SetRelativeRotation(FRotator(TargetLidPitch, 0.f, 0.f));
-
+	// Opening Lid animation in Blueprint
 	ParticleComp->Activate(true);
-	//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OpenChestParticles, GetActorLocation());
-}
 
+}

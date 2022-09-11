@@ -51,4 +51,3 @@ void ASPotionBase::AllowInteraction()
 	bCanBeInteracted = true;
 	this->SetActorHiddenInGame(!bCanBeInteracted);
 }
-

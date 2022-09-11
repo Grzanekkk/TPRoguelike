@@ -151,7 +151,7 @@ void ASCharacter::PrimaryAttack()
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
 {
-	if(ensure(PrimaryAttack_ProjectileClass))
+	if(ensureMsgf(PrimaryAttack_ProjectileClass, TEXT("PrimaryAttack_ProjectileClass is missing! Please saaign PrimaryAttack_ProjectileClass in your Character")))
 	{
 		//AController* Controller = GetController();
 		
