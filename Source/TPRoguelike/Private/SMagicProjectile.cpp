@@ -34,7 +34,10 @@ void ASMagicProjectile::OnComponentHit(UPrimitiveComponent* HitComponent, AActor
 		{
 			AttributeComponent->ApplyHealthChange(-Damage);
 		}
-		Super::Explode_Implementation();
+
+		Super::Explode();
+
+		Destroy();
 	}
 	else
 	{

@@ -35,30 +35,34 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<USAttributeComponent> AttributeComponent;
 
-	
 	virtual void BeginPlay() override;
 	
 	virtual void PostInitializeComponents() override;
 
+	////////////////////////////////////////////////////
+	/// Movement
+	UFUNCTION()
 	void MoveForward(float Value);
-	
+
+	UFUNCTION()
 	void MoveRight(float Value);
-	
+
 	void Jump();
 	
-	void PrimaryAttack();
 	UFUNCTION()
-	void PrimaryAttack_TimeElapsed();
-
-	void Q_Ability();
-	UFUNCTION()
-	void Q_Ability_TimeElapsed();
-	
 	void PrimaryInteract();
 
 	
 	////////////////////////////////////////////////////
 	/// Abilities
+
+	// Primaty Attack
+	UFUNCTION()
+	void PrimaryAttack();
+
+	UFUNCTION()
+	void PrimaryAttack_TimeElapsed();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
 	TSubclassOf<ASProjectileBase> PrimaryAttack_ProjectileClass;
 
@@ -68,7 +72,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
 	FName PrimaryWeaponSocketName;
 
-	FTimerHandle TH_PrimaryAttack; 
+	UPROPERTY()
+	FTimerHandle PrimaryAttackTimer; 
+
+	// Q Ability
+	UFUNCTION()
+	void Q_Ability();
+
+	UFUNCTION()
+	void Q_Ability_TimeElapsed();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
 	TSubclassOf<ASProjectileBase> Q_Ability_ProjectileClass;
@@ -79,7 +91,27 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
 	FName Q_AbilityWeaponSocketName;
 
-	FTimerHandle TH_Q_Ability;
+	UPROPERTY()
+	FTimerHandle Q_AbilityTimer;
+
+	// E Ability
+	UFUNCTION()
+	void E_Ability();
+
+	UFUNCTION()
+	void E_Ability_TimeElapsed();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|E Ability")
+	TSubclassOf<ASProjectileBase> E_Ability_ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|E Ability")
+	TObjectPtr<UAnimMontage> E_AbilityAnim;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Abilities|E Ability")
+	FName E_AbilityWeaponSocketName;
+
+	UPROPERTY()
+	FTimerHandle E_AbilityTimer;
 
 
 	////////////////////////////////////////////////////
@@ -87,9 +119,8 @@ protected:
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth);
 
+	UFUNCTION()
 	void OnDeath();
-
-
 
 public:	
 	// Called every frame

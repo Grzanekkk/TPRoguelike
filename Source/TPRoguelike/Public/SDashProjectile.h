@@ -11,4 +11,35 @@ class TPROGUELIKE_API ASDashProjectile : public ASProjectileBase
 {
 	GENERATED_BODY()
 	
+public:
+	// Sets default values for this actor's properties
+	ASDashProjectile();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Dash")
+	TObjectPtr<AActor> TargetActor = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Dash")
+	float ExplodeAfter = 0.2f;
+
+protected:
+
+	virtual void BeginPlay() override;
+
+	virtual void PostInitializeComponents() override;
+
+	virtual void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
+
+	virtual void Explode() override;
+
+	void TeleportPlayer();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Dash")
+	float TeleportDelay = 0.2f;
+
+	UPROPERTY()
+	FTimerHandle ExpolsionTimer;
+
+	UPROPERTY()
+	FTimerHandle TeleportationTimer;
 };
+

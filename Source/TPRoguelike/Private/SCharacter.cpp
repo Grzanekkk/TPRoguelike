@@ -146,7 +146,7 @@ void ASCharacter::PrimaryAttack()
 	PlayAnimMontage(PrimaryAttackAnim);
 
 	// Delay before s
-	GetWorldTimerManager().SetTimer(TH_PrimaryAttack, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.15f);
+	GetWorldTimerManager().SetTimer(PrimaryAttackTimer, this, &ASCharacter::PrimaryAttack_TimeElapsed, 0.15f);
 }
 
 void ASCharacter::PrimaryAttack_TimeElapsed()
@@ -192,21 +192,52 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 
 void ASCharacter::Q_Ability()
 {
-	PlayAnimMontage(Q_AbilityAnim);
+	if (ensureMsgf(Q_AbilityAnim, TEXT("Q_AbilityAnim is missing! Please asigne Q_AbilityAnim in your character")))
+	{
+		PlayAnimMontage(Q_AbilityAnim);
 
-	GetWorldTimerManager().SetTimer(TH_Q_Ability, this, &ASCharacter::Q_Ability_TimeElapsed, 0.15f);
+		GetWorldTimerManager().SetTimer(Q_AbilityTimer, this, &ASCharacter::Q_Ability_TimeElapsed, 0.15f);
+	}
 }
 
 void ASCharacter::Q_Ability_TimeElapsed()
 {
-	FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation(PrimaryWeaponSocketName));
+	if (ensureMsgf(Q_Ability_ProjectileClass, TEXT("Q_Ability_ProjectileClass is missing! Please asigne Q_Ability_ProjectileClass in your character")))
+	{
+		FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation(PrimaryWeaponSocketName));
 
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnParams.Instigator = this;
-	
-	GetWorld()->SpawnActor<AActor>(Q_Ability_ProjectileClass, SpawnTM, SpawnParams);
-	DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 8.f, 8, FColor::Purple, false, 2.f);
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.Instigator = this;
+
+		GetWorld()->SpawnActor<AActor>(Q_Ability_ProjectileClass, SpawnTM, SpawnParams);
+		DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 8.f, 8, FColor::Purple, false, 2.f);
+	}
+}
+
+void ASCharacter::E_Ability()
+{
+	if (ensureMsgf(E_AbilityAnim, TEXT("E_AbilityAnim is missing! Please asigne E_AbilityAnim in your character")))
+	{
+		PlayAnimMontage(E_AbilityAnim);
+
+		GetWorldTimerManager().SetTimer(E_AbilityTimer, this, &ASCharacter::E_Ability_TimeElapsed, 0.15f);
+	}
+}
+
+void ASCharacter::E_Ability_TimeElapsed()
+{
+	if (ensureMsgf(E_Ability_ProjectileClass, TEXT("E_Ability_ProjectileClass is missing! Please asigne E_Ability_ProjectileClass in your character")))
+	{
+		FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation(PrimaryWeaponSocketName));
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.Instigator = this;
+
+		GetWorld()->SpawnActor<AActor>(E_Ability_ProjectileClass, SpawnTM, SpawnParams);
+		DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 8.f, 8, FColor::Purple, false, 2.f);
+	}
 }
 
 void ASCharacter::PrimaryInteract()

@@ -47,8 +47,8 @@ protected:
 	UFUNCTION()
 	virtual void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Damage")
-	void Explode();
+	UFUNCTION(BlueprintCallable, Category = "Damage")
+	virtual void Explode();
 
 	virtual void BeginPlay() override;
 
