@@ -32,6 +32,7 @@ ASProjectileBase::ASProjectileBase()
 void ASProjectileBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
+
 	SphereComp->OnComponentHit.AddDynamic(this, &ASProjectileBase::OnComponentHit);
 	AActor* InstigatorActor = Cast<AActor>(GetInstigator());
 	SphereComp->IgnoreActorWhenMoving(InstigatorActor, true);

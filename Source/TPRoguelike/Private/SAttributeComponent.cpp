@@ -11,23 +11,13 @@ USAttributeComponent::USAttributeComponent()
 
 bool USAttributeComponent::IsAlive() const
 {
-	if(Health > 0)
-	{
-		return true;
-	}
-
-	// Dead
-	return false;
+	// returns true if alive, false if dead
+	return Health > 0;
 }
 
 bool USAttributeComponent::IsFullyHealed() const
 {
-	if (Health == MaxHealth)
-	{
-		return true;
-	}
-
-	return false;
+	return Health == MaxHealth;
 }
 
 bool USAttributeComponent::ApplyHealthChange(float HealthDelta)

@@ -36,7 +36,8 @@ void ASPotionBase::UsePotion(APawn* InstigatorPawn)
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickUpParticles, GetActorLocation());
 		bCanBeInteracted = false;
-		this->SetActorHiddenInGame(!bCanBeInteracted);
+		//this->SetActorHiddenInGame(!bCanBeInteracted);
+		RootComponent->SetVisibility(bCanBeInteracted, true);
 
 		GetWorldTimerManager().SetTimer(TH_InteractionDelay, this, &ASPotionBase::AllowInteraction, InteractionDelay);
 	}
@@ -49,5 +50,6 @@ void ASPotionBase::UsePotion(APawn* InstigatorPawn)
 void ASPotionBase::AllowInteraction()
 {
 	bCanBeInteracted = true;
-	this->SetActorHiddenInGame(!bCanBeInteracted);
+	//this->SetActorHiddenInGame(!bCanBeInteracted);
+	RootComponent->SetVisibility(bCanBeInteracted, true);
 }
