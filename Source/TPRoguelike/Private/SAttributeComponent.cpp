@@ -34,7 +34,6 @@ bool USAttributeComponent::ApplyHealthChange(float HealthDelta)
 {
 	Health += HealthDelta;
 
-	//Health = FMath::Wrap(Health, 0.f, MaxHealth);
 	Health = FMath::Clamp(Health, 0.f, MaxHealth);
 
 	OnHealthChanged.Broadcast(nullptr, this, Health, HealthDelta);

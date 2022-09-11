@@ -21,10 +21,10 @@ public:
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
-	float Health;
+	float Health = 100.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
-	float MaxHealth = 100;
+	float MaxHealth = 100.f;
 
 	// HealthMax, Stamina, Mana, CritChance;
 

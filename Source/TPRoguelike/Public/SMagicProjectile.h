@@ -18,7 +18,7 @@ public:
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
-	float Damage;
+	float Damage = 20.f;
 	
 	virtual void BeginPlay() override;
 
