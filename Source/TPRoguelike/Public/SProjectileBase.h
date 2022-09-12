@@ -19,11 +19,9 @@ class TPROGUELIKE_API ASProjectileBase : public AActor
 public:
 	ASProjectileBase();
 
-protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
 	UParticleSystem* ImpactVFX;
 
-public:
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
 	UParticleSystem* SpawnVFX;	// Muzzle Flash
 

@@ -18,8 +18,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Dash")
 	TObjectPtr<AActor> TargetActor = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
+	TObjectPtr<UParticleSystem> PlayerTeleportVFX;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Dash")
-	float ExplodeAfter = 0.2f;
+	float ExplodeAfter = 0.4f;
 
 protected:
 

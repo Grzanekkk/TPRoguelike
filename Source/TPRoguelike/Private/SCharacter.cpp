@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "SAttributeComponent.h"
 #include "SProjectileBase.h"
+#include "SDashProjectile.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -111,6 +112,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ASCharacter::PrimaryInteract);
 	PlayerInputComponent->BindAction("Q_Ability", IE_Pressed, this, &ASCharacter::Q_Ability);
+	PlayerInputComponent->BindAction("E_Ability", IE_Pressed, this, &ASCharacter::E_Ability);
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -231,11 +233,11 @@ void ASCharacter::E_Ability_TimeElapsed()
 	{
 		FTransform SpawnTM = FTransform(GetControlRotation(), GetMesh()->GetSocketLocation(PrimaryWeaponSocketName));
 
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		SpawnParams.Instigator = this;
+		TObjectPtr<ASDashProjectile> DashProjectile = Cast<ASDashProjectile>(GetWorld()->SpawnActorDeferred<AActor>(E_Ability_ProjectileClass, SpawnTM, this, this, ESpawnActorCollisionHandlingMethod::AlwaysSpawn));
+		DashProjectile->TargetActor = this;
 
-		GetWorld()->SpawnActor<AActor>(E_Ability_ProjectileClass, SpawnTM, SpawnParams);
+		DashProjectile->FinishSpawning(SpawnTM);
+
 		DrawDebugSphere(GetWorld(), SpawnTM.GetLocation(), 8.f, 8, FColor::Purple, false, 2.f);
 	}
 }
