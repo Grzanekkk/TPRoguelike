@@ -182,7 +182,6 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 		SpawnParams.Instigator = this;
 	
 		ASProjectileBase* ProjectileSpawned = GetWorld()->SpawnActor<ASProjectileBase>(PrimaryAttack_ProjectileClass, SpawnTM, SpawnParams);
-		GetCapsuleComponent()->IgnoreActorWhenMoving(ProjectileSpawned, true);
 
 		// Spawn FX
 		UGameplayStatics::SpawnEmitterAttached(ProjectileSpawned->SpawnVFX, GetMesh(), PrimaryWeaponSocketName, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget);

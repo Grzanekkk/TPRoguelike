@@ -44,6 +44,12 @@ void ASProjectileBase::BeginPlay()
 
 	AudioComp->SetSound(FlightSound);
 	AudioComp->Play();
+
+	if (ensureMsgf(GetInstigator(), TEXT("Instigator is missing in your projectile")))
+	{
+		SphereComp->IgnoreActorWhenMoving(GetInstigator(), true);
+		GetInstigator()->MoveIgnoreActorAdd(this);
+	}
 }
 
 void ASProjectileBase::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
