@@ -23,9 +23,10 @@ void USBTService_CheckAttackRange::TickNode(UBehaviorTreeComponent& OwnerComp, u
 				TObjectPtr<APawn> AIPawn = AIController->GetPawn();
 				if (ensure(AIPawn))
 				{
-					float DistanceTo = FVector::Distance(TargetActor->GetActorLocation(), AIPawn->GetActorLocation());
+					float DistanceTo = FVector::Distance(AIPawn->GetActorLocation(), TargetActor->GetActorLocation());
+					//float DistanceTo = AIPawn->GetDistanceTo(TargetActor);
 
-					UE_LOG(LogTemp, Warning, TEXT("%i"), DistanceTo);
+					UE_LOG(LogTemp, Warning, TEXT("Distance from %s to %s: %f"), *GetNameSafe(AIPawn), *GetNameSafe(TargetActor), DistanceTo);
 
 					bool bWithinRange = DistanceTo < AcceptableDistance;
 

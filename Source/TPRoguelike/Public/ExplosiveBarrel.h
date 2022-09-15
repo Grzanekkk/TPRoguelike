@@ -7,6 +7,10 @@
 #include "GameFramework/Actor.h"
 #include "ExplosiveBarrel.generated.h"
 
+class UParticleSystemComponent;
+class UMeshComponent;
+class URadialForceComponent;
+
 UCLASS()
 class TPROGUELIKE_API AExplosiveBarrel : public AActor
 {
@@ -25,19 +29,19 @@ protected:
 	float Damage;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	class UParticleSystemComponent* ParticleComp;
+	TObjectPtr<UParticleSystemComponent> ParticleComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	class UMeshComponent* MeshComp;
+	TObjectPtr<UMeshComponent> MeshComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	class URadialForceComponent* RadialForceComp;
+	TObjectPtr<URadialForceComponent> RadialForceComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	USphereComponent* ExplosionRadiusSphere;
+	TObjectPtr<USphereComponent> ExplosionRadiusSphere;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Particles")
-	UParticleSystem* ExplosionParticles;
+	TObjectPtr<UParticleSystem> ExplosionParticles;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -30,7 +30,7 @@ AExplosiveBarrel::AExplosiveBarrel()
 	RadialForceComp->SetupAttachment(RootComponent);
 	RadialForceComp->bImpulseVelChange = true;
 	RadialForceComp->Radius = Radius;
-	RadialForceComp->ForceStrength = 1200;
+	RadialForceComp->ForceStrength = 2000;
 	RadialForceComp->AddCollisionChannelToAffect(ECC_WorldDynamic);
 
 	ExplosionRadiusSphere = CreateDefaultSubobject<USphereComponent>(TEXT("ExplosionRadius"));
@@ -65,7 +65,6 @@ void AExplosiveBarrel::OnComponentHit(UPrimitiveComponent* HitComponent, AActor*
 void AExplosiveBarrel::Explode()
 {
 	RadialForceComp->FireImpulse();
-	//ExplodeBP();
 	ParticleComp->Activate(true);
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionParticles, ParticleComp->GetComponentTransform());
 }

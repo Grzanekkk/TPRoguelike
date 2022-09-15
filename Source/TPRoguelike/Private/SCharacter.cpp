@@ -36,6 +36,9 @@ ASCharacter::ASCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 	PrimaryWeaponSocketName = TEXT("RightHandSocket");
+
+	// AI
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 void ASCharacter::PostInitializeComponents()

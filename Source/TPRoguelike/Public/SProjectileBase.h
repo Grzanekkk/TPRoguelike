@@ -10,7 +10,6 @@ class UProjectileMovementComponent;
 class USphereComponent;
 class USoundCue;
 
-
 UCLASS(Abstract) // We cant spawn this actor + more... *
 class TPROGUELIKE_API ASProjectileBase : public AActor
 {
@@ -20,20 +19,20 @@ public:
 	ASProjectileBase();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
-	UParticleSystem* ImpactVFX;
+	TObjectPtr<UParticleSystem> ImpactVFX;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
-	UParticleSystem* SpawnVFX;	// Muzzle Flash
+	TObjectPtr<UParticleSystem> SpawnVFX;	// Muzzle Flash
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UParticleSystemComponent* ParticleComp;
+	TObjectPtr<UParticleSystemComponent> ParticleComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	USphereComponent* SphereComp;
+	TObjectPtr<USphereComponent> SphereComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UProjectileMovementComponent* MovementComp;
+	TObjectPtr<UProjectileMovementComponent> MovementComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UAudioComponent> AudioComp;
