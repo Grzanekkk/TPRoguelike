@@ -20,6 +20,11 @@ bool USAttributeComponent::IsFullyHealed() const
 	return Health == MaxHealth;
 }
 
+bool USAttributeComponent::IsHealthHigherThen(float IsHealthHigherThenThis) const
+{
+	return Health > IsHealthHigherThenThis;
+}
+
 bool USAttributeComponent::ApplyHealthChange(float HealthDelta)
 {
 	Health += HealthDelta;

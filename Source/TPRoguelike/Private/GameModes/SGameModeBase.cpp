@@ -7,6 +7,7 @@
 #include "AI/SAICharacter.h"
 #include "SAttributeComponent.h"
 #include "EngineUtils.h"
+#include "DrawDebugHelpers.h"
 
 
 ASGameModeBase::ASGameModeBase()
@@ -49,7 +50,7 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 		TObjectPtr<ASAICharacter> Bot = *Iterator;
 
 		TObjectPtr<USAttributeComponent> AttribComp = Cast<USAttributeComponent>(Bot->GetComponentByClass(USAttributeComponent::StaticClass()));
-		if(AttribComp && AttribComp->IsAlive())
+		if(ensure(AttribComp) && AttribComp->IsAlive())
 		{
 			NrOfAliveBots++;
 		}
@@ -62,12 +63,16 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 	}
 
 	// Checks if we can spawn more bots based on the amount of them in the level
-	if (NrOfAliveBots < MaxBotCount)
+	if (NrOfAliveBots >= MaxBotCount)
 	{
-		TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
-		if (Locations.Num() > 0)
-		{
-			GetWorld()->SpawnActor<AActor>(MinionClass, Locations[0], FRotator::ZeroRotator);
-		}
+		UE_LOG(LogTemp, Warning, TEXT("Max amount of bots on map. Skipping bot spawn"));
+		return;
+	}
+	
+	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
+	if (Locations.Num() > 0)
+	{
+		GetWorld()->SpawnActor<AActor>(MinionClass, Locations[0], FRotator::ZeroRotator);
+		DrawDebugSphere(GetWorld(), Locations[0], 20, 20, FColor::Blue, false, 20.f);
 	}
 }

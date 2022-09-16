@@ -24,6 +24,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
 	TObjectPtr<UParticleSystem> SpawnVFX;	// Muzzle Flash
 
+	UPROPERTY(EditDefaultsOnly, Category = "Effects|Speed")
+	float ProjectileSpeed = 3000.f;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UParticleSystemComponent> ParticleComp;
@@ -39,7 +42,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Camera Shake")
 	TSubclassOf<UCameraShakeBase> ImpactCameraShake;
-
 
 	UFUNCTION()
 	virtual void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);

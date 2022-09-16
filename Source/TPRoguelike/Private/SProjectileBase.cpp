@@ -34,8 +34,6 @@ void ASProjectileBase::PostInitializeComponents()
 	Super::PostInitializeComponents();
 
 	SphereComp->OnComponentHit.AddDynamic(this, &ASProjectileBase::OnComponentHit);
-	AActor* InstigatorActor = Cast<AActor>(GetInstigator());
-	SphereComp->IgnoreActorWhenMoving(InstigatorActor, true);
 }
 
 void ASProjectileBase::BeginPlay()
@@ -44,6 +42,14 @@ void ASProjectileBase::BeginPlay()
 
 	AudioComp->SetSound(FlightSound);
 	AudioComp->Play();
+
+	AActor* InstigatorActor = Cast<AActor>(GetInstigator());
+	SphereComp->IgnoreActorWhenMoving(InstigatorActor, true);
+
+	// Its not working
+	//// We can set this value either in defaults or when spawning actor deffered
+	//MovementComp->InitialSpeed = ProjectileSpeed;
+	//UE_LOG(LogTemp, Warning, TEXT("Projectile Speed: %f"), MovementComp->InitialSpeed);
 
 	if (ensureMsgf(GetInstigator(), TEXT("Instigator is missing in your projectile")))
 	{

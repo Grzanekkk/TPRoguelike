@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "SAICharacter.generated.h"
 
+class USAttributeComponent;
 class UPawnSensingComponent;
 
 UCLASS()
@@ -17,11 +18,23 @@ public:
 	ASAICharacter();
 
 protected:
-	virtual void PostInitializeComponents() override;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<USAttributeComponent> AttributeComponent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	TObjectPtr<UPawnSensingComponent> PawnSensingComp;
 
 	UFUNCTION()
 	void OnPawnSeen(APawn* Pawn);
+
+	////////////////////////////////////////////////////
+	/// Health + Death
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth);
+
+	UFUNCTION()
+	void OnDeath();
+
+	virtual void PostInitializeComponents() override;
 };

@@ -4,13 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTService.h"
-#include "SBTService_CheckAttackRange.generated.h"
+#include "SBTService_CheckLowHealth.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
-class TPROGUELIKE_API USBTService_CheckAttackRange : public UBTService
+class TPROGUELIKE_API USBTService_CheckLowHealth : public UBTService
 {
 	GENERATED_BODY()
 	
@@ -18,8 +16,8 @@ protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
-	float AcceptableDistance = 1000.f;
+	float LowHealthThreshold = 30.f;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
-	FBlackboardKeySelector AttackRangeKey;
+	FBlackboardKeySelector IsLowHelthKey;
 };

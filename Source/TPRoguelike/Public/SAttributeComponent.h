@@ -35,6 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	bool IsFullyHealed() const;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsHealthHigherThen(float IsHealthHigherThenThis) const;
+
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
 
