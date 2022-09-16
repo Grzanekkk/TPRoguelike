@@ -2,6 +2,7 @@
 
 #include "AI/SAICharacter.h"
 #include "Perception/PawnSensingComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "AIController.h"
 #include "SAttributeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -12,6 +13,10 @@ ASAICharacter::ASAICharacter()
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
 
 	AttributeComponent = CreateDefaultSubobject<USAttributeComponent>(TEXT("AttributeComponent"));
+
+	HealingParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("HealingParticleComponent"));
+	HealingParticleComp->SetupAttachment(RootComponent);
+	HealingParticleComp->bAutoActivate = false;
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
@@ -46,4 +51,15 @@ void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponen
 void ASAICharacter::OnDeath()
 {
 
+}
+
+
+void ASAICharacter::Heal(float HealingAmount)
+{
+	if (HealingAmount > 0)
+	{
+		AttributeComponent->ApplyHealthChange(HealingAmount);
+
+		HealingParticleComp->Activate(true);
+	}
 }

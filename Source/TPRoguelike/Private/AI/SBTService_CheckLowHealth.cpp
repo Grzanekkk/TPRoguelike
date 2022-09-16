@@ -25,7 +25,7 @@ void USBTService_CheckLowHealth::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 				TObjectPtr<USAttributeComponent> AttribComponent = Cast<USAttributeComponent>(AICharacter->GetComponentByClass(USAttributeComponent::StaticClass()));
 				if (ensure(AttribComponent))
 				{
-					bool bIsLowHealth = AttribComponent->IsHealthHigherThen(LowHealthThreshold);
+					bool bIsLowHealth = !AttribComponent->IsHealthHigherThen(LowHealthThreshold);
 
 					BlackBoardComp->SetValueAsBool(IsLowHelthKey.SelectedKeyName, bIsLowHealth);
 				}

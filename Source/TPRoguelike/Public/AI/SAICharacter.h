@@ -17,6 +17,9 @@ class TPROGUELIKE_API ASAICharacter : public ACharacter
 public:
 	ASAICharacter();
 
+	UFUNCTION()
+	void Heal(float HealingAmount);
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
@@ -24,6 +27,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	TObjectPtr<UPawnSensingComponent> PawnSensingComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UParticleSystemComponent> HealingParticleComp;
 
 	UFUNCTION()
 	void OnPawnSeen(APawn* Pawn);
