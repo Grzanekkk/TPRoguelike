@@ -4,19 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "SBTTask_Heal.generated.h"
+#include "BTTask_StopHealingOverTime.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TPROGUELIKE_API USBTTask_Heal : public UBTTaskNode
+class TPROGUELIKE_API UBTTask_StopHealingOverTime : public UBTTaskNode
 {
 	GENERATED_BODY()
 	
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
-
-public:
-	UPROPERTY(EditAnywhere, Category = "AI")
-	float HealingAmount = 50; 
 };

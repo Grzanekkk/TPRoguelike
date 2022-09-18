@@ -21,6 +21,20 @@ ASAICharacter::ASAICharacter()
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
+void ASAICharacter::Tick(float DeltaTime)
+{
+	if (bIsHealingOverTime)
+	{
+		TimeSinceLastHealing += DeltaTime;
+
+		if (TimeSinceLastHealing >= HealingInterval)
+		{
+			Heal(HealthPerSecond);
+			TimeSinceLastHealing = 0.f;
+		}
+	}
+}
+
 void ASAICharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
@@ -53,13 +67,37 @@ void ASAICharacter::OnDeath()
 
 }
 
-
 void ASAICharacter::Heal(float HealingAmount)
 {
+	// For now waiting is implemented in Behaviur Tree
 	if (HealingAmount > 0)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("%s Healed for %f HP"), *this->GetName(), HealingAmount);
 		AttributeComponent->ApplyHealthChange(HealingAmount);
-
-		HealingParticleComp->Activate(true);
 	}
+}
+
+void ASAICharacter::StartHealingOverTime(float _HealthPerSecond, float _SecondsOfHealing)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s Started Healing"), *this->GetName());
+
+	SecondsOfHealing = _SecondsOfHealing;
+	HealthPerSecond = _HealthPerSecond;
+	bIsHealingOverTime = true;
+
+	HealingParticleComp->Activate(true);
+
+	// Heal a little at a start
+	Heal(HealthPerSecond);
+}
+
+void ASAICharacter::StopHealingOverTime()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s Stopped Healing"), *this->GetName());
+
+	SecondsOfHealing = 0;
+	HealthPerSecond = 0;
+	bIsHealingOverTime = false;
+
+	HealingParticleComp->Deactivate();
 }

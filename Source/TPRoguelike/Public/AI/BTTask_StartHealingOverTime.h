@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "SBTTask_Heal.generated.h"
+#include "BTTask_StartHealingOverTime.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class TPROGUELIKE_API USBTTask_Heal : public UBTTaskNode
+class TPROGUELIKE_API UBTTask_StartHealingOverTime : public UBTTaskNode
 {
 	GENERATED_BODY()
 	
@@ -18,5 +18,8 @@ class TPROGUELIKE_API USBTTask_Heal : public UBTTaskNode
 
 public:
 	UPROPERTY(EditAnywhere, Category = "AI")
-	float HealingAmount = 50; 
+	float HealthPerSecond = 20;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	float SecondsOfHealing = 3;
 };

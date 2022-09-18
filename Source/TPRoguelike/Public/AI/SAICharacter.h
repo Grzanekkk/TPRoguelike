@@ -17,8 +17,7 @@ class TPROGUELIKE_API ASAICharacter : public ACharacter
 public:
 	ASAICharacter();
 
-	UFUNCTION()
-	void Heal(float HealingAmount);
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 
@@ -42,5 +41,33 @@ protected:
 	UFUNCTION()
 	void OnDeath();
 
+	UPROPERTY(VisibleAnywhere, Category = "Healing")
+	bool bIsHealingOverTime = false;
+
+	UPROPERTY(VisibleAnywhere, Category = "Healing")
+	float HealingInterval = 1.f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Healing")
+	float HealthPerSecond = 0.f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Healing")
+	float SecondsOfHealing = 0.f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Healing")
+	float TimeSinceLastHealing = 0.f;
+
+
+public:
+	UFUNCTION()
+	void Heal(float HealingAmount);
+
+	UFUNCTION()
+	void StartHealingOverTime(float _HealthPerSecond, float _HealForSeconds);
+
+	UFUNCTION()
+	void StopHealingOverTime();
+
+
+protected:
 	virtual void PostInitializeComponents() override;
 };
