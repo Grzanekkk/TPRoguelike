@@ -44,6 +44,9 @@ protected:
 	UFUNCTION()
 	bool SetTargetActor(AActor* TargetActor);
 
+	UPROPERTY(VisibleAnywhere, Category = "Effects")
+	FName TimeToHitParamName = "TimeToHit";
+
 	UPROPERTY(VisibleAnywhere, Category = "Healing")
 	bool bIsHealingOverTime = false;
 

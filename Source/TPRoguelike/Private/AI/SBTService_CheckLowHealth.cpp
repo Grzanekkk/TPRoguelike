@@ -12,7 +12,6 @@ void USBTService_CheckLowHealth::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
 	// Check if Ai Actor is low health
-
 	TObjectPtr<UBlackboardComponent> BlackBoardComp = OwnerComp.GetBlackboardComponent();
 	if (ensure(BlackBoardComp))
 	{
@@ -22,8 +21,8 @@ void USBTService_CheckLowHealth::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 			TObjectPtr<ASAICharacter> AICharacter = Cast<ASAICharacter>(AIController->GetPawn());
 			if (ensure(AICharacter))
 			{
-				TObjectPtr<USAttributeComponent> AttribComponent = USAttributeComponent::GetAttributeComponent(AIController);
-				if (ensure(AttribComponent))
+				TObjectPtr<USAttributeComponent> AttribComponent = USAttributeComponent::GetAttributeComponent(AICharacter);
+				if(ensure(AttribComponent))
 				{
 					bool bIsLowHealth = !AttribComponent->IsHealthHigherThen(LowHealthThreshold);
 

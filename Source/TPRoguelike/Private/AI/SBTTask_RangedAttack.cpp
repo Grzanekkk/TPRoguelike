@@ -21,17 +21,22 @@ EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& O
 		TObjectPtr<AActor> TargetActor = Cast<AActor>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("TargetActor"));
 		if (TargetActor == nullptr)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("There is no TargetActor"));
 			return EBTNodeResult::Failed;
 		}
 
-		if (USAttributeComponent::IsActorAlive(TargetActor))
+		if (!USAttributeComponent::IsActorAlive(TargetActor))
 		{
+			UE_LOG(LogTemp, Warning, TEXT("TargetActor is Dead"));
 			return EBTNodeResult::Failed;
 		}
 
 		FVector MuzzleLocation = MyPawn->GetMesh()->GetSocketLocation("Muzzle_Front");
 		FVector Direction = TargetActor->GetActorLocation() - MuzzleLocation;
 		FRotator MuzzleRotation = Direction.Rotation();
+
+		MuzzleRotation.Pitch += FMath::RandRange(-0.2f, MaxBulletSpread);
+		MuzzleRotation.Yaw += FMath::RandRange(-MaxBulletSpread, MaxBulletSpread);
 
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

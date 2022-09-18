@@ -122,6 +122,9 @@ protected:
 	UFUNCTION()
 	void OnDeath();
 
+	UPROPERTY(VisibleAnywhere, Category = "Effects")
+	FName TimeToHitParamName = "TimeToHit";
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

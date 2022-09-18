@@ -78,6 +78,11 @@ void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponen
 {
 	SetTargetActor(InstigatorActor);
 
+	if (DeltaHealth < 0.0f)
+	{
+		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHitParamName, GetWorld()->GetTimeSeconds());
+	}
+
 	if (DeltaHealth < 0 && !AttributeComponent->IsAlive())
 	{
 		OnDeath();

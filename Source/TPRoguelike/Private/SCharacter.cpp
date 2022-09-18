@@ -84,6 +84,11 @@ void ASCharacter::Tick(float DeltaTime)
 void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth,
 	float DeltaHealth)
 {
+	if (DeltaHealth < 0.0f)
+	{
+		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHitParamName, GetWorld()->GetTimeSeconds());
+	}
+
 	if (DeltaHealth < 0 && !AttributeComponent->IsAlive())
 	{
 		OnDeath();

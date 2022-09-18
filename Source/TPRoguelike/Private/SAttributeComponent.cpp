@@ -35,7 +35,7 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Heal
 	return true;
 }
 
-TObjectPtr<USAttributeComponent> USAttributeComponent::GetAttributeComponent(AActor* FromActor)
+USAttributeComponent* USAttributeComponent::GetAttributeComponent(AActor* FromActor)
 {
 	if (FromActor)
 	{

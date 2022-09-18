@@ -17,7 +17,7 @@ class TPROGUELIKE_API USAttributeComponent : public UActorComponent
 public:	
 	
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	static TObjectPtr<USAttributeComponent> GetAttributeComponent(AActor* FromActor);
+	static USAttributeComponent* GetAttributeComponent(AActor* FromActor);
 
 	// Returns false is Actor doesn`t have AttributeComponent
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
