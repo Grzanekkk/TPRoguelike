@@ -41,11 +41,14 @@ protected:
 	UFUNCTION()
 	void OnDeath();
 
+	UFUNCTION()
+	bool SetTargetActor(AActor* TargetActor);
+
 	UPROPERTY(VisibleAnywhere, Category = "Healing")
 	bool bIsHealingOverTime = false;
 
 	UPROPERTY(VisibleAnywhere, Category = "Healing")
-	float HealingInterval = 1.f;
+	float HealingInterval = 0.2f;
 
 	UPROPERTY(VisibleAnywhere, Category = "Healing")
 	float HealthPerSecond = 0.f;

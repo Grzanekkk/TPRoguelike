@@ -22,7 +22,7 @@ void USBTService_CheckLowHealth::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 			TObjectPtr<ASAICharacter> AICharacter = Cast<ASAICharacter>(AIController->GetPawn());
 			if (ensure(AICharacter))
 			{
-				TObjectPtr<USAttributeComponent> AttribComponent = Cast<USAttributeComponent>(AICharacter->GetComponentByClass(USAttributeComponent::StaticClass()));
+				TObjectPtr<USAttributeComponent> AttribComponent = USAttributeComponent::GetAttributeComponent(AIController);
 				if (ensure(AttribComponent))
 				{
 					bool bIsLowHealth = !AttribComponent->IsHealthHigherThen(LowHealthThreshold);

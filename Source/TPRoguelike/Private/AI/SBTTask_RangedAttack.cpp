@@ -4,6 +4,7 @@
 #include "AI/SBTTask_RangedAttack.h"
 #include "AIController.h"
 #include "GameFramework/Character.h"
+#include "SAttributeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
@@ -19,6 +20,11 @@ EBTNodeResult::Type USBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& O
 
 		TObjectPtr<AActor> TargetActor = Cast<AActor>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("TargetActor"));
 		if (TargetActor == nullptr)
+		{
+			return EBTNodeResult::Failed;
+		}
+
+		if (USAttributeComponent::IsActorAlive(TargetActor))
 		{
 			return EBTNodeResult::Failed;
 		}

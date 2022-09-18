@@ -84,7 +84,7 @@ void ASCharacter::Tick(float DeltaTime)
 void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth,
 	float DeltaHealth)
 {
-	if (!AttributeComponent->IsAlive())	// "DeltaHealth" checks if we ware damaged of healed
+	if (DeltaHealth < 0 && !AttributeComponent->IsAlive())
 	{
 		OnDeath();
 	}
@@ -180,7 +180,7 @@ void ASCharacter::PrimaryAttack_TimeElapsed()
 		// SpawnTM == SpawnTransformMatrix
 		FTransform SpawnTM = FTransform(ProjectileSpawnRotation, HandLocation);
 	
-		ASProjectileBase* ProjectileSpawned = GetWorld()->SpawnActorDeferred<ASProjectileBase>(PrimaryAttack_ProjectileClass, SpawnTM, this, this, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+		TObjectPtr<ASProjectileBase> ProjectileSpawned = GetWorld()->SpawnActorDeferred<ASProjectileBase>(PrimaryAttack_ProjectileClass, SpawnTM, this, this, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
 		ProjectileSpawned->SetInstigator(this);
 		ProjectileSpawned->ProjectileSpeed = 90000.f;

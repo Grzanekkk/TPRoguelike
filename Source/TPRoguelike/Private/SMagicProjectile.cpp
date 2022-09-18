@@ -29,10 +29,10 @@ void ASMagicProjectile::OnComponentHit(UPrimitiveComponent* HitComponent, AActor
 {
 	if(OtherActor && OtherActor != GetInstigator())
 	{
-		USAttributeComponent* AttributeComponent = Cast<USAttributeComponent>(OtherActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		USAttributeComponent* AttributeComponent = USAttributeComponent::GetAttributeComponent(OtherActor);
 		if(AttributeComponent)
 		{
-			AttributeComponent->ApplyHealthChange(-Damage);
+			AttributeComponent->ApplyHealthChange(GetInstigator(), -Damage);
 		}
 
 		Super::Explode();

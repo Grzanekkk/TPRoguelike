@@ -5,6 +5,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "AIController.h"
 #include "SAttributeComponent.h"
+#include "BrainComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 
@@ -46,27 +47,64 @@ void ASAICharacter::PostInitializeComponents()
 
 void ASAICharacter::OnPawnSeen(APawn* Pawn)
 {
-	TObjectPtr<AAIController> AIController = Cast<AAIController>(GetController());
-	if (AIController)
+	SetTargetActor(Pawn);
+	
+	DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER SPOTTED", nullptr, FColor::White, 4.f, true);
+}
+
+
+bool ASAICharacter::SetTargetActor(AActor* TargetActor)
+{
+	// If we ware hit by another ai we will start shooting this ai (its kinda fun)
+	if (TargetActor != this)
 	{
-		TObjectPtr<UBlackboardComponent> BBCComp = AIController->GetBlackboardComponent();
+		TObjectPtr<AAIController> AIController = Cast<AAIController>(GetController());
+		if (AIController)
+		{
+			TObjectPtr<UBlackboardComponent> BBCComp = AIController->GetBlackboardComponent();
 
-		BBCComp->SetValueAsObject("TargetActor", Pawn);
+			BBCComp->SetValueAsObject("TargetActor", TargetActor);
 
-		DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER SPOTTED", nullptr, FColor::White, 4.f, true);
+			return true;
+		}
 	}
+
+	return false;
 }
 
 ////////////////////////////////////////////////////
 /// Health + Death
 void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth)
 {
+	SetTargetActor(InstigatorActor);
 
+	if (DeltaHealth < 0 && !AttributeComponent->IsAlive())
+	{
+		OnDeath();
+	}
 }
 
 void ASAICharacter::OnDeath()
 {
+	// Stoping Logic
+	TObjectPtr<AAIController> AIController = Cast<AAIController>(GetController());
+	if (ensure(AIController))
+	{
+		AIController->GetBrainComponent()->StopLogic("Killed");
+	}
 
+	// Set Ragdoll
+	GetMesh()->SetAllBodiesSimulatePhysics(true);
+	GetMesh()->SetCollisionProfileName("Ragdoll");
+
+
+	if (bIsHealingOverTime)
+	{
+		StopHealingOverTime();
+	}
+
+	// Destroy Actor in 10s
+	SetLifeSpan(10.f);
 }
 
 void ASAICharacter::Heal(float HealingAmount)
@@ -75,7 +113,7 @@ void ASAICharacter::Heal(float HealingAmount)
 	if (HealingAmount > 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s Healed for %f HP"), *this->GetName(), HealingAmount);
-		AttributeComponent->ApplyHealthChange(HealingAmount);
+		AttributeComponent->ApplyHealthChange(this, HealingAmount);
 	}
 }
 

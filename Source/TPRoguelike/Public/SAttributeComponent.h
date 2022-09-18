@@ -15,7 +15,14 @@ class TPROGUELIKE_API USAttributeComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
+	
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	static TObjectPtr<USAttributeComponent> GetAttributeComponent(AActor* FromActor);
+
+	// Returns false is Actor doesn`t have AttributeComponent
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	static bool IsActorAlive(AActor* Actor);
+
 	USAttributeComponent();
 
 protected:
@@ -42,6 +49,6 @@ public:
 	FOnHealthChanged OnHealthChanged;
 
 	UFUNCTION(BlueprintCallable,  Category = "Attributes")
-	bool ApplyHealthChange(float HealthDelta);
+	bool ApplyHealthChange(AActor* InstigatorActor, float HealthDelta);
 	
 };

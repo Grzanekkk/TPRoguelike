@@ -54,10 +54,10 @@ void AExplosiveBarrel::OnComponentHit(UPrimitiveComponent* HitComponent, AActor*
 	ExplosionRadiusSphere->GetOverlappingActors(OverlappingActors);
 	for(AActor* Actor : OverlappingActors)
 	{
-		USAttributeComponent* AttributeComponent = Cast<USAttributeComponent>(Actor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		USAttributeComponent* AttributeComponent = USAttributeComponent::GetAttributeComponent(Actor);
 		if(AttributeComponent)
 		{
-			AttributeComponent->ApplyHealthChange(-Damage);
+			AttributeComponent->ApplyHealthChange(this, -Damage);
 		}
 	}
 }

@@ -18,7 +18,7 @@ class TPROGUELIKE_API UBTTask_StartHealingOverTime : public UBTTaskNode
 
 public:
 	UPROPERTY(EditAnywhere, Category = "AI")
-	float HealthPerSecond = 20;
+	float HealthPerSecond = 4;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 	float SecondsOfHealing = 3;
