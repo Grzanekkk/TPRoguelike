@@ -27,30 +27,14 @@ void ASGameModeBase::StartPlay()
 
 void ASGameModeBase::SpawnBotTimerElapsed()
 {
-	// RandomBest5Pct mean that as a result we will get SINGLE random locatoin from bast 5 percent results
-	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
-
-	if (ensure(QueryInstance))
-	{
-		QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnQueryCompleted);
-	}
-}
-
-void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
-{
-	if (QueryStatus != EEnvQueryStatus::Success)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Spawn Bot EQS failed!"));
-		return;
-	}
-
+	// Basicly GetAllActorsOfClass
 	int32 NrOfAliveBots = 0;
 	for (TActorIterator<ASAICharacter> Iterator(GetWorld()); Iterator; ++Iterator)
 	{
 		TObjectPtr<ASAICharacter> Bot = *Iterator;
 
 		TObjectPtr<USAttributeComponent> AttribComp = Cast<USAttributeComponent>(Bot->GetComponentByClass(USAttributeComponent::StaticClass()));
-		if(ensure(AttribComp) && AttribComp->IsAlive())
+		if (ensure(AttribComp) && AttribComp->IsAlive())
 		{
 			NrOfAliveBots++;
 		}
@@ -66,6 +50,23 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 	if (NrOfAliveBots >= MaxBotCount)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Max amount of bots on map. Skipping bot spawn"));
+		return;
+	}
+
+	// RandomBest5Pct mean that as a result we will get SINGLE random locatoin from bast 5 percent results
+	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
+
+	if (ensure(QueryInstance))
+	{
+		QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnQueryCompleted);
+	}
+}
+
+void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
+{
+	if (QueryStatus != EEnvQueryStatus::Success)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Spawn Bot EQS failed!"));
 		return;
 	}
 	

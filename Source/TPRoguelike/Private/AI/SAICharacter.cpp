@@ -57,6 +57,8 @@ void ASAICharacter::OnPawnSeen(APawn* Pawn)
 	}
 }
 
+////////////////////////////////////////////////////
+/// Health + Death
 void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth)
 {
 
