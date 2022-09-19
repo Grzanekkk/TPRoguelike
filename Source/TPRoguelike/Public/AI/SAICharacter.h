@@ -52,7 +52,7 @@ protected:
 	bool bIsHealingOverTime = false;
 
 	UPROPERTY(VisibleAnywhere, Category = "Healing")
-	float HealingInterval = 0.2f;
+	float HealingInterval = 0.05f;
 
 	UPROPERTY(VisibleAnywhere, Category = "Healing")
 	float HealthPerSecond = 0.f;
