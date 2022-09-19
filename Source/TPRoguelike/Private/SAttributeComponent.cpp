@@ -25,8 +25,19 @@ bool USAttributeComponent::IsHealthHigherThen(float IsHealthHigherThenThis) cons
 	return Health > IsHealthHigherThenThis;
 }
 
+bool USAttributeComponent::Kill(AActor* InstigatorActor)
+{
+	return ApplyHealthChange(nullptr, -9999999.f);
+}
+
 bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float HealthDelta)
 {
+	if (!GetOwner()->CanBeDamaged())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s cannot be damaged!"), *GetNameSafe(GetOwner()));
+		return false;
+	}
+
 	Health += HealthDelta;
 
 	Health = FMath::Clamp(Health, 0.f, MaxHealth);

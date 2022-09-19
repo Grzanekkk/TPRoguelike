@@ -52,4 +52,11 @@ public:
 
 	virtual void StartPlay() override;
 
+
+protected:
+	////////////////////////////////////////////////////
+	/// Cheats
+
+	UFUNCTION(Exec)
+	void KillAllAI();
 };

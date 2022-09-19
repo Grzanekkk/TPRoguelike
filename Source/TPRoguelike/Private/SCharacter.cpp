@@ -254,3 +254,11 @@ void ASCharacter::PrimaryInteract()
 {
 	InteractionComponent->PrimaryInteract();
 }
+
+
+////////////////////////////////////////////////////
+/// Cheats
+void ASCharacter::HealSelf(float Amount /* = 100.f */)
+{
+	AttributeComponent->ApplyHealthChange(this, Amount);
+}

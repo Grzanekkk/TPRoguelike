@@ -36,14 +36,17 @@ protected:
 	// HealthMax, Stamina, Mana, CritChance;
 
 public:
-	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Attributes")
 	bool IsAlive() const; 
 
-	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Attributes")
 	bool IsFullyHealed() const;
 
-	UFUNCTION(BlueprintCallable, BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Attributes")
 	bool IsHealthHigherThen(float IsHealthHigherThenThis) const;
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	bool Kill(AActor* InstigatorActor);
 
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;

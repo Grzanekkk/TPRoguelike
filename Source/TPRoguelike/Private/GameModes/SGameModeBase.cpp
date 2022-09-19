@@ -76,3 +76,16 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 		DrawDebugSphere(GetWorld(), Locations[0], 20, 20, FColor::Blue, false, 20.f);
 	}
 }
+
+
+////////////////////////////////////////////////////
+/// Cheats
+void ASGameModeBase::KillAllAI()
+{
+	for (TActorIterator<ASAICharacter> Iterator(GetWorld()); Iterator; ++Iterator)
+	{
+		TObjectPtr<ASAICharacter> Bot = *Iterator;
+
+		USAttributeComponent::GetAttributeComponent(Bot)->Kill(Bot);
+	}
+}
