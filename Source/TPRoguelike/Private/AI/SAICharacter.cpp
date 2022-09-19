@@ -7,6 +7,7 @@
 #include "SAttributeComponent.h"
 #include "BrainComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "UI/SWorldUserWidget.h"
 
 
 ASAICharacter::ASAICharacter()
@@ -81,6 +82,16 @@ void ASAICharacter::OnHealthChanged(AActor* InstigatorActor, USAttributeComponen
 	if (DeltaHealth < 0.0f)
 	{
 		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHitParamName, GetWorld()->GetTimeSeconds());
+
+		if (ActiveHealthBarWidget == nullptr)
+		{
+			ActiveHealthBarWidget = CreateWidget<USWorldUserWidget>(GetWorld(), HealthBarWidgetClass);
+			if (ActiveHealthBarWidget)
+			{
+				ActiveHealthBarWidget->AttachedActor = this;
+				ActiveHealthBarWidget->AddToViewport();
+			}
+		}
 	}
 
 	if (DeltaHealth < 0 && !AttributeComponent->IsAlive())
@@ -107,6 +118,8 @@ void ASAICharacter::OnDeath()
 	{
 		StopHealingOverTime();
 	}
+
+	ActiveHealthBarWidget->RemoveFromViewport();
 
 	// Destroy Actor in 10s
 	SetLifeSpan(10.f);

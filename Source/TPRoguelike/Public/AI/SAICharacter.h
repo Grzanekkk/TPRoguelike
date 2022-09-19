@@ -8,6 +8,7 @@
 
 class USAttributeComponent;
 class UPawnSensingComponent;
+class USWorldUserWidget;
 
 UCLASS()
 class TPROGUELIKE_API ASAICharacter : public ACharacter
@@ -61,6 +62,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Healing")
 	float TimeSinceLastHealing = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,  Category = "UI")
+	TSubclassOf<USWorldUserWidget> HealthBarWidgetClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<USWorldUserWidget> ActiveHealthBarWidget;
 
 
 public:
