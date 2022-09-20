@@ -37,6 +37,9 @@ ASCharacter::ASCharacter()
 
 	PrimaryWeaponSocketName = TEXT("RightHandSocket");
 
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Ignore);
+	GetMesh()->SetGenerateOverlapEvents(true);
+
 	// AI
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
@@ -100,7 +103,7 @@ void ASCharacter::OnDeath()
 	TObjectPtr<APlayerController> PlayerControler = Cast<APlayerController>(Controller);
 	DisableInput(PlayerControler);
 
-	//GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 

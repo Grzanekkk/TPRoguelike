@@ -5,9 +5,12 @@
 #include "EnvironmentQuery/EnvQueryManager.h"
 #include "EnvironmentQuery/EnvQueryInstanceBlueprintWrapper.h"
 #include "AI/SAICharacter.h"
+#include "SCharacter.h"
 #include "SAttributeComponent.h"
 #include "EngineUtils.h"
 #include "DrawDebugHelpers.h"
+
+static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("jp.SpawnBots"), true, TEXT("Enable spawning of bots via timer."), ECVF_Cheat);
 
 
 ASGameModeBase::ASGameModeBase()
@@ -19,14 +22,23 @@ void ASGameModeBase::StartPlay()
 {
 	Super::StartPlay();
 
-	if (bCanSpawnBots)
-	{
-		GetWorldTimerManager().SetTimer(TimerHandle_SpawnBot, this, &ASGameModeBase::SpawnBotTimerElapsed, SpawnTimerInterval, true);
-	}
+	GetWorldTimerManager().SetTimer(TimerHandle_SpawnBot, this, &ASGameModeBase::SpawnBotTimerElapsed, SpawnTimerInterval, true);
 }
 
 void ASGameModeBase::SpawnBotTimerElapsed()
 {
+	if (!bCanSpawnBots)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Spawning bots disabled via bCanSpawnBots in GameMode"));
+		return;
+	}
+
+	if (!CVarSpawnBots.GetValueOnGameThread())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Spawning bots disabled via CVarSpawnBots command"));
+		return;
+	}
+
 	// Basicly GetAllActorsOfClass
 	int32 NrOfAliveBots = 0;
 	for (TActorIterator<ASAICharacter> Iterator(GetWorld()); Iterator; ++Iterator)
@@ -75,6 +87,31 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 		GetWorld()->SpawnActor<AActor>(MinionClass, Locations[0], FRotator::ZeroRotator);
 		DrawDebugSphere(GetWorld(), Locations[0], 20, 20, FColor::Blue, false, 20.f);
 	}
+}
+
+void ASGameModeBase::OnActorKilled(AActor* VictimActor, AActor* Killer)
+{
+	TObjectPtr<ASCharacter> Player = Cast<ASCharacter>(VictimActor);
+	if (Player)
+	{
+		// Its here and not in header file because we do not want to reuse this timer wher respawning two players at the same time
+		FTimerHandle RespawnDelay_TimerHandle;
+		FTimerDelegate RespawnPlayer_Delegate;
+
+		RespawnPlayer_Delegate.BindUFunction(this, "RespawnPlayerElapsed", Player->GetController());
+
+		GetWorldTimerManager().SetTimer(RespawnDelay_TimerHandle, RespawnPlayer_Delegate, PlayerRespawnDelay, false);
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("OnActorKilled: Victim: %s, Killer: %s"), *GetNameSafe(VictimActor), *GetNameSafe(VictimActor));
+}
+
+void ASGameModeBase::RespawnPlayerElapsed(AController* PlayerController)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Respawning Player"));
+
+	PlayerController->UnPossess();
+	RestartPlayer(PlayerController);
 }
 
 

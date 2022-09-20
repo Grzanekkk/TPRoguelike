@@ -47,13 +47,20 @@ protected:
 	UFUNCTION()
 	void OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Respawn")
+	float PlayerRespawnDelay = 3.f;
+
+	UFUNCTION()
+	void RespawnPlayerElapsed(AController* PlayerController);
+
 public:
 	ASGameModeBase();
 
 	virtual void StartPlay() override;
 
+	virtual void OnActorKilled(AActor* VictimActor, AActor* Killer);
 
-protected:
+
 	////////////////////////////////////////////////////
 	/// Cheats
 

@@ -2,6 +2,11 @@
 
 
 #include "SAttributeComponent.h"
+#include "GameModes/SGameModeBase.h"
+
+
+static TAutoConsoleVariable<float> CVarDamageMultipler(TEXT("jp.DamageMultipler"), 1.0f, TEXT("Global damage multiplier in AttributeComponent."), ECVF_Cheat);
+
 
 // Sets default values for this component's properties
 USAttributeComponent::USAttributeComponent()
@@ -38,12 +43,30 @@ bool USAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Heal
 		return false;
 	}
 
-	Health += HealthDelta;
+	if (HealthDelta < 0.0f)
+	{
+		float DamageMultipler = CVarDamageMultipler.GetValueOnGameThread();
 
-	Health = FMath::Clamp(Health, 0.f, MaxHealth);
+		HealthDelta *= DamageMultipler;
+	}
 
-	OnHealthChanged.Broadcast(InstigatorActor, this, Health, HealthDelta);
-	return true;
+
+	float OldHealth = Health;
+
+	Health = FMath::Clamp(Health + HealthDelta, 0.0f, MaxHealth);
+
+	float ActualDeltaHealth = Health - OldHealth;
+	OnHealthChanged.Broadcast(InstigatorActor, this, Health, ActualDeltaHealth);
+
+	// Actor just died
+	if (ActualDeltaHealth < 0.0f && Health == 0.0f)
+	{
+		TObjectPtr<ASGameModeBase> GM = GetWorld()->GetAuthGameMode<ASGameModeBase>();
+		GM->OnActorKilled(GetOwner(), InstigatorActor);
+	}
+
+	// Returns false if dealth 0 damage (actor is already dead)
+	return ActualDeltaHealth != 0;
 }
 
 USAttributeComponent* USAttributeComponent::GetAttributeComponent(AActor* FromActor)

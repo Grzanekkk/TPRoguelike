@@ -8,6 +8,8 @@
 #include "BrainComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "UI/SWorldUserWidget.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 ASAICharacter::ASAICharacter()
@@ -21,6 +23,9 @@ ASAICharacter::ASAICharacter()
 	HealingParticleComp->bAutoActivate = false;
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Ignore);
+	GetMesh()->SetGenerateOverlapEvents(true);
 }
 
 void ASAICharacter::Tick(float DeltaTime)
@@ -50,7 +55,7 @@ void ASAICharacter::OnPawnSeen(APawn* Pawn)
 {
 	SetTargetActor(Pawn);
 	
-	DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER SPOTTED", nullptr, FColor::White, 4.f, true);
+	//DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER SPOTTED", nullptr, FColor::White, 4.f, true);
 }
 
 
@@ -113,6 +118,8 @@ void ASAICharacter::OnDeath()
 	GetMesh()->SetAllBodiesSimulatePhysics(true);
 	GetMesh()->SetCollisionProfileName("Ragdoll");
 
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCharacterMovement()->DisableMovement();
 
 	if (bIsHealingOverTime)
 	{

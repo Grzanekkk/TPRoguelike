@@ -2,9 +2,11 @@
 
 
 #include "SInteractionComponent.h"
-
 #include "DrawDebugHelpers.h"
 #include "SGameplayInterface.h"
+
+static TAutoConsoleVariable<bool> CVarDrawInteractionDebug(TEXT("jp.DrawInteractionDebug"), false, TEXT("Draw Debug Shapes for Interaction Component."), ECVF_Cheat);
+
 
 // Sets default values for this component's properties
 USInteractionComponent::USInteractionComponent()
@@ -30,6 +32,8 @@ void USInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void USInteractionComponent::PrimaryInteract()
 {
+	bool bDrawDebug = CVarDrawInteractionDebug.GetValueOnGameThread();
+
 	AActor* Owner = GetOwner();
 
 	FVector TraceStart = FVector::ZeroVector;
@@ -52,6 +56,11 @@ void USInteractionComponent::PrimaryInteract()
 
 	for(FHitResult Hit : Hits)
 	{
+		if (bDrawDebug)
+		{
+			DrawDebugSphere(GetWorld(), Hit.ImpactNormal, Radius, 32, LineColor, false, 2.f);
+		}
+
 		AActor* HitActor = Hit.GetActor();
 		if(HitActor)
 		{
@@ -62,10 +71,13 @@ void USInteractionComponent::PrimaryInteract()
 				ISGameplayInterface::Execute_Interact(HitActor, OwnerPawn);
 				break;
 			}
-			DrawDebugSphere(GetWorld(), Hit.ImpactNormal, Radius, 32, LineColor, false, 2.f);
+			
 		}
 	}
 	
-	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, LineColor, false, 2, 0, 2);
+	if (bDrawDebug)
+	{
+		DrawDebugLine(GetWorld(), TraceStart, TraceEnd, LineColor, false, 2, 0, 2);
+	}
 }
 
