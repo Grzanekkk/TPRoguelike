@@ -15,6 +15,10 @@ void USActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	for (TSubclassOf<USAction> DefaultAction : DefaultActions)
+	{
+		AddAction(DefaultAction);
+	}
 }
 
 void USActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

@@ -19,7 +19,6 @@ class TPROGUELIKE_API ASCharacter : public ACharacter
 	GENERATED_BODY()
 	
 public:
-	// Sets default values for this character's properties
 	ASCharacter();
 
 protected:
@@ -54,72 +53,31 @@ protected:
 
 	UFUNCTION()
 	void MoveRight(float Value);
+	
+	UFUNCTION()
+	void StartSprint();
+
+	UFUNCTION()
+	void StopSprint();
 
 	void Jump();
-	
+
+	////////////////////////////////////////////////////
+	/// Interaction
 	UFUNCTION()
 	void PrimaryInteract();
 
 	
 	////////////////////////////////////////////////////
 	/// Abilities
-
-	// Primaty Attack
 	UFUNCTION()
 	void PrimaryAttack();
 
 	UFUNCTION()
-	void PrimaryAttack_TimeElapsed();
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
-	TSubclassOf<ASProjectileBase> PrimaryAttack_ProjectileClass;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
-	TObjectPtr<UAnimMontage> PrimaryAttackAnim;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Primary Attack")
-	FName PrimaryWeaponSocketName;
-
-	UPROPERTY()
-	FTimerHandle PrimaryAttackTimer; 
-
-	// Q Ability
-	UFUNCTION()
 	void Q_Ability();
 
 	UFUNCTION()
-	void Q_Ability_TimeElapsed();
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
-	TSubclassOf<ASProjectileBase> Q_Ability_ProjectileClass;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
-	TObjectPtr<UAnimMontage> Q_AbilityAnim;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|Q Ability")
-	FName Q_AbilityWeaponSocketName;
-
-	UPROPERTY()
-	FTimerHandle Q_AbilityTimer;
-
-	// E Ability
-	UFUNCTION()
 	void E_Ability();
-
-	UFUNCTION()
-	void E_Ability_TimeElapsed();
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|E Ability")
-	TSubclassOf<ASProjectileBase> E_Ability_ProjectileClass;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|E Ability")
-	TObjectPtr<UAnimMontage> E_AbilityAnim;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Abilities|E Ability")
-	FName E_AbilityWeaponSocketName;
-
-	UPROPERTY()
-	FTimerHandle E_AbilityTimer;
 
 
 	////////////////////////////////////////////////////
@@ -134,15 +92,13 @@ protected:
 	FName TimeToHitParamName = "TimeToHit";
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 	////////////////////////////////////////////////////
 	/// Cheats
-
 	UFUNCTION(Exec)
 	void HealSelf(float Amount = 100.f);
 };

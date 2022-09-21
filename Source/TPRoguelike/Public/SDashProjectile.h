@@ -15,9 +15,6 @@ public:
 	// Sets default values for this actor's properties
 	ASDashProjectile();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Dash")
-	TObjectPtr<AActor> TargetActor = nullptr;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
 	TObjectPtr<UParticleSystem> PlayerTeleportVFX;
 
@@ -38,6 +35,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Dash")
 	float TeleportDelay = 0.2f;
+
+	UPROPERTY(VisibleAnywhere, Category = "Dash")
+	TObjectPtr<AActor> TargetActor = nullptr;
 
 	UPROPERTY()
 	FTimerHandle ExpolsionTimer;

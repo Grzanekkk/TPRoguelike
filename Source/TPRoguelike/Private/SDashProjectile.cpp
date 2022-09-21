@@ -14,6 +14,8 @@ void ASDashProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
+	TargetActor = GetInstigator();
+
 	GetWorldTimerManager().SetTimer(ExpolsionTimer, this, &ASDashProjectile::Explode, ExplodeAfter);
 }
 
@@ -51,7 +53,10 @@ void ASDashProjectile::TeleportPlayer()
 {
 	Super::Explode();
 
-	TargetActor->TeleportTo(GetActorLocation(), TargetActor->GetActorRotation());
+	if (ensureMsgf(TargetActor, TEXT("TargetActor is null in Dash Projectile! Aborting teleportation")))
+	{
+		TargetActor->TeleportTo(GetActorLocation(), TargetActor->GetActorRotation());
+	}
 
 	Destroy();
 }

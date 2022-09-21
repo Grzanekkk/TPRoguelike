@@ -6,9 +6,8 @@
 #include "UObject/NoExportTypes.h"
 #include "SAction.generated.h"
 
-/**
- * 
- */
+class UWorld;
+
 UCLASS(Blueprintable)
 class TPROGUELIKE_API USAction : public UObject
 {
@@ -24,4 +23,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	FName ActionName;
+
+	// We have to override this function so we will have acces to line traces and other world related stuff in blueprint children of this class
+	UWorld* GetWorld() const override;
 };
