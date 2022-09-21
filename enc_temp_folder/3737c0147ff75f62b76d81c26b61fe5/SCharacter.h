@@ -10,7 +10,6 @@ class UCameraComponent;
 class USpringArmComponent;
 class USInteractionComponent;
 class USAttributeComponent;
-class USActionComponent;
 class ASProjectileBase;
 
 UCLASS()
@@ -23,14 +22,7 @@ public:
 	ASCharacter();
 
 protected:
-
-	virtual void BeginPlay() override;
-
-	virtual void PostInitializeComponents() override;
 	
-
-	////////////////////////////////////////////////////
-	/// Components
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
 	TObjectPtr<UCameraComponent> CameraComp;
 
@@ -43,9 +35,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<USAttributeComponent> AttributeComponent;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<USActionComponent> ActionComponent;
-
+	virtual void BeginPlay() override;
+	
+	virtual void PostInitializeComponents() override;
 
 	////////////////////////////////////////////////////
 	/// Movement
