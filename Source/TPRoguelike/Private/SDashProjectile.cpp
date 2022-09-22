@@ -28,15 +28,18 @@ void ASDashProjectile::OnComponentHit(UPrimitiveComponent* HitComponent, AActor*
 {
 	//Super::OnComponentHit(HitComponent, OtherActor, OtherComp, NormalImpulse, Hit);
 
-	if (OtherActor == Cast<AActor>(GetInstigator()))
+}
+
+void ASDashProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s, Component: %s"), *GetNameSafe(OtherActor), *GetNameSafe(OverlappedComponent));
+
+	if (OtherActor && OtherActor != GetInstigator() && !OtherActor->IsA(ASProjectileBase::StaticClass()))
 	{
-		return;
+		GetWorldTimerManager().ClearTimer(ExpolsionTimer);
+
+		Explode();
 	}
-
-
-	GetWorldTimerManager().ClearTimer(ExpolsionTimer);
-
-	Explode();
 }
 
 void ASDashProjectile::Explode()

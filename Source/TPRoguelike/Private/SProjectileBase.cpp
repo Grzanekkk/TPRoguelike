@@ -62,18 +62,19 @@ void ASProjectileBase::BeginPlay()
 void ASProjectileBase::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if(OtherActor == Cast<AActor>(GetInstigator()))
-		return;
-	
-	Explode();
+	//if(OtherActor == Cast<AActor>(GetInstigator()))
+	//	return;
+	//
+	//Explode();
 }
 
 void ASProjectileBase::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor == Cast<AActor>(GetInstigator()))
-		return;
-
-	Explode();
+	//UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s, Component: %s"), *GetNameSafe(OtherActor), *GetNameSafe(OverlappedComponent));
+	if (OtherActor && OtherActor != GetInstigator() && !OtherActor->IsA(ASProjectileBase::StaticClass()))
+	{
+		Explode();
+	}
 }
 
 void ASProjectileBase::Explode()
