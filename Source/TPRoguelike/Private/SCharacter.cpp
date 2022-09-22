@@ -125,6 +125,8 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("E_Ability", IE_Pressed, this, &ASCharacter::E_Ability);
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ASCharacter::StartSprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ASCharacter::StopSprint);
+	PlayerInputComponent->BindAction("Parry", IE_Pressed, this, &ASCharacter::StartParry);
+	PlayerInputComponent->BindAction("Parry", IE_Released, this, &ASCharacter::StopParry);
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -178,6 +180,16 @@ void ASCharacter::Q_Ability()
 void ASCharacter::E_Ability()
 {
 	ActionComponent->StartActionByName(this, "EAbility");
+}
+
+void ASCharacter::StartParry()
+{
+	ActionComponent->StartActionByName(this, "Parry");
+}
+
+void ASCharacter::StopParry()
+{
+	ActionComponent->StopActionByName(this, "Parry");
 }
 
 void ASCharacter::PrimaryInteract()

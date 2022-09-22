@@ -79,6 +79,12 @@ protected:
 	UFUNCTION()
 	void E_Ability();
 
+	UFUNCTION()
+	void StartParry();
+	
+	UFUNCTION()
+	void StopParry();
+
 
 	////////////////////////////////////////////////////
 	/// Health + Death

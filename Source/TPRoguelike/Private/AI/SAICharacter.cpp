@@ -9,6 +9,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "UI/SWorldUserWidget.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SActionComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -17,6 +18,8 @@ ASAICharacter::ASAICharacter()
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
 
 	AttributeComponent = CreateDefaultSubobject<USAttributeComponent>(TEXT("AttributeComponent"));
+
+	ActionComponent = CreateDefaultSubobject<USActionComponent>(TEXT("ActionComponent"));
 
 	HealingParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("HealingParticleComponent"));
 	HealingParticleComp->SetupAttachment(RootComponent);
