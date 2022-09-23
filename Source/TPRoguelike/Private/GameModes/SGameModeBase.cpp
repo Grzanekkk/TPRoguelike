@@ -12,6 +12,7 @@
 #include "DrawDebugHelpers.h"
 
 static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("jp.SpawnBots"), true, TEXT("Enable spawning of bots via timer."), ECVF_Cheat);
+static TAutoConsoleVariable<bool> CVarSpawnPickups(TEXT("jp.SpawnPickups"), true, TEXT("Enable spawning of bots via timer."), ECVF_Cheat);
 
 
 ASGameModeBase::ASGameModeBase()
@@ -24,8 +25,13 @@ void ASGameModeBase::StartPlay()
 	Super::StartPlay();
 
 	GetWorldTimerManager().SetTimer(TimerHandle_SpawnBot, this, &ASGameModeBase::SpawnBotTimerElapsed, SpawnTimerInterval, true);
+
+	SpawnPickups();
 }
 
+
+////////////////////////////////////////////////////
+/// Bots Spawning
 void ASGameModeBase::SpawnBotTimerElapsed()
 {
 	if (!bCanSpawnBots)
@@ -70,11 +76,11 @@ void ASGameModeBase::SpawnBotTimerElapsed()
 
 	if (ensure(QueryInstance))
 	{
-		QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnQueryCompleted);
+		QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnSpawnBotQueryCompleted);
 	}
 }
 
-void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
+void ASGameModeBase::OnSpawnBotQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
 {
 	if (QueryStatus != EEnvQueryStatus::Success)
 	{
@@ -90,6 +96,73 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 	}
 }
 
+
+////////////////////////////////////////////////////
+/// Player Respawning
+void ASGameModeBase::RespawnPlayerElapsed(AController* PlayerController)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Respawning Player"));
+
+	PlayerController->UnPossess();
+	RestartPlayer(PlayerController);
+}
+
+
+////////////////////////////////////////////////////
+/// Pickup spawning
+void ASGameModeBase::SpawnPickups()
+{
+	if (!bCanSpawnPickups)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Spawning bots disabled via bCanSpawnBots in GameMode"));
+		return;
+	}
+
+	if (!CVarSpawnPickups.GetValueOnGameThread())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Spawning bots disabled via CVarSpawnBots command"));
+		return;
+	}
+
+	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, SpawnPickupsQuery, this, EEnvQueryRunMode::AllMatching, nullptr);
+
+	if (ensure(QueryInstance))
+	{
+		QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnSpawnQueryCompleted);
+	}
+}
+
+void ASGameModeBase::OnSpawnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
+{
+	if (QueryStatus != EEnvQueryStatus::Success)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Spawn Pickups EQS failed!"));
+		return;
+	}
+
+	if (PickUpsAvalibleToSpawn.Num() == 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("PickUpsAvalibleToSpawn is Empty! Failed to Spawn Any Pickups"));
+		return;
+	}
+
+	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
+	for (FVector SpawnLocation : Locations)
+	{
+		float Rand = FMath::RandRange(0, 100);
+		if (Rand < PickupSpawnChancePercentage)
+		{
+			int32 RandPickup = FMath::RandRange(0, PickUpsAvalibleToSpawn.Num() - 1);
+			int32 RandZRotation = FMath::RandRange(0, 360);
+
+			GetWorld()->SpawnActor<AActor>(PickUpsAvalibleToSpawn[RandPickup], SpawnLocation, FRotator(0, RandZRotation, 0));
+		}
+	}
+}
+
+
+////////////////////////////////////////////////////
+/// OnActorKilled
 void ASGameModeBase::OnActorKilled(AActor* VictimActor, AActor* Killer)
 {
 	TObjectPtr<ASCharacter> PlayerKilled = Cast<ASCharacter>(VictimActor);
@@ -107,7 +180,7 @@ void ASGameModeBase::OnActorKilled(AActor* VictimActor, AActor* Killer)
 	TObjectPtr<ASCharacter> PlayerKiller = Cast<ASCharacter>(Killer);
 	if (PlayerKiller)
 	{
-		TObjectPtr<USAttributeComponent> VictimAttribComp =	Cast<USAttributeComponent>(VictimActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		TObjectPtr<USAttributeComponent> VictimAttribComp = Cast<USAttributeComponent>(VictimActor->GetComponentByClass(USAttributeComponent::StaticClass()));
 		if (VictimAttribComp)
 		{
 			PlayerKiller->GetPlayerState<ASPlayerState>()->AddCredits(VictimAttribComp->GetCreditsAmountForKill());
@@ -115,14 +188,6 @@ void ASGameModeBase::OnActorKilled(AActor* VictimActor, AActor* Killer)
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("OnActorKilled: Victim: %s, Killer: %s"), *GetNameSafe(VictimActor), *GetNameSafe(VictimActor));
-}
-
-void ASGameModeBase::RespawnPlayerElapsed(AController* PlayerController)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Respawning Player"));
-
-	PlayerController->UnPossess();
-	RestartPlayer(PlayerController);
 }
 
 

@@ -11,6 +11,7 @@
 class UEnvQuery;
 class UEnvQueryInstanceBlueprintWrapper;
 class UCurveFloat;
+class ASPickupBase;
 
 UCLASS()
 class TPROGUELIKE_API ASGameModeBase : public AGameModeBase
@@ -19,23 +20,28 @@ class TPROGUELIKE_API ASGameModeBase : public AGameModeBase
 	
 protected:
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	////////////////////////////////////////////////////
+	/// Bots Spawning
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|AI")
 	bool bCanSpawnBots = true;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|AI")
 	TObjectPtr<UEnvQuery> SpawnBotQuery;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|AI")
+	TObjectPtr<UEnvQuery> SpawnPickupsQuery;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|AI")
 	TSubclassOf<AActor> MinionClass;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|AI")
 	TObjectPtr<UCurveFloat>  DifficultyCurve;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|AI")
 	float SpawnTimerInterval = 2.f;
 
 	// It will use this value if we dont have DifficultyCurve assigned (we should assigne it thoe)
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|AI")
 	int32 MaxBotCount = 10;
 
 	UPROPERTY()
@@ -45,19 +51,42 @@ protected:
 	void SpawnBotTimerElapsed();
 
 	UFUNCTION()
-	void OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+	void OnSpawnBotQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 
+
+	////////////////////////////////////////////////////
+	/// Player Respawning
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Player Respawn")
 	float PlayerRespawnDelay = 3.f;
 
 	UFUNCTION()
 	void RespawnPlayerElapsed(AController* PlayerController);
 
+
+	////////////////////////////////////////////////////
+	/// Pickup Spawning
+	UFUNCTION()
+	void SpawnPickups();
+
+	UFUNCTION()
+	void OnSpawnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|Pickups", meta = (ClampMin = 0, ClampMax = 100))
+	float PickupSpawnChancePercentage = 100.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|Pickups")
+	TArray<TSubclassOf<ASPickupBase>> PickUpsAvalibleToSpawn;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Spawning|Pickups")
+	bool bCanSpawnPickups = true;
+
 public:
 	ASGameModeBase();
 
 	virtual void StartPlay() override;
 
+	////////////////////////////////////////////////////
+	/// OnActorKilled
 	virtual void OnActorKilled(AActor* VictimActor, AActor* Killer);
 
 

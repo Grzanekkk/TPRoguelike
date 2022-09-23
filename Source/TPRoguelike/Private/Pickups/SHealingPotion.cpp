@@ -19,21 +19,32 @@ void ASHealingPotion::Interact_Implementation(APawn* InstigatorPawn)
 	UsePickupItem(InstigatorPawn);
 }
 
-void ASHealingPotion::UsePickupItem(APawn* InstigatorPawn)
+bool ASHealingPotion::CanInteract_Implementation(APawn* InstigatorPawn)
 {
-	Super::UsePickupItem(InstigatorPawn);
-
-	if (bCanBeInteracted)
+	if (Super::CanInteract_Implementation(InstigatorPawn))
 	{
 		USAttributeComponent* AttributeComponent = USAttributeComponent::GetAttributeComponent(InstigatorPawn);
 		if (AttributeComponent)
 		{
 			if (!AttributeComponent->IsFullyHealed())
 			{
-				AttributeComponent->ApplyHealthChange(this, HealingAmount);
-
-				ASPickupBase::UsePickupItem(InstigatorPawn);
+				return true;
 			}
 		}
+	}
+
+	return false;
+}
+
+void ASHealingPotion::UsePickupItem(APawn* InstigatorPawn)
+{
+	Super::UsePickupItem(InstigatorPawn);
+
+	USAttributeComponent* AttributeComponent = USAttributeComponent::GetAttributeComponent(InstigatorPawn);
+	if (AttributeComponent)
+	{
+		AttributeComponent->ApplyHealthChange(this, HealingAmount);
+
+		ASPickupBase::UsePickupItem(InstigatorPawn);
 	}
 }

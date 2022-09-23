@@ -16,6 +16,8 @@ public:
 
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
+	virtual bool CanInteract_Implementation(APawn* InstigatorPawn) override;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Pickup|Healing")
 	float HealingAmount = 50;
 
