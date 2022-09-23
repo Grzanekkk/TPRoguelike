@@ -68,7 +68,10 @@ void USInteractionComponent::PrimaryInteract()
 			{
 				APawn* OwnerPawn = Cast<APawn>(Owner);
 			
-				ISGameplayInterface::Execute_Interact(HitActor, OwnerPawn);
+				if (ISGameplayInterface::Execute_CanInteract(HitActor, OwnerPawn))
+				{
+					ISGameplayInterface::Execute_Interact(HitActor, OwnerPawn);
+				}
 				break;
 			}
 			

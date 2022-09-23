@@ -7,6 +7,7 @@
 #include "AI/SAICharacter.h"
 #include "Characters/SCharacter.h"
 #include "Components/SAttributeComponent.h"
+#include "PlayerStates/SPlayerState.h"
 #include "EngineUtils.h"
 #include "DrawDebugHelpers.h"
 
@@ -91,16 +92,26 @@ void ASGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryIn
 
 void ASGameModeBase::OnActorKilled(AActor* VictimActor, AActor* Killer)
 {
-	TObjectPtr<ASCharacter> Player = Cast<ASCharacter>(VictimActor);
-	if (Player)
+	TObjectPtr<ASCharacter> PlayerKilled = Cast<ASCharacter>(VictimActor);
+	if (PlayerKilled)
 	{
 		// Its here and not in header file because we do not want to reuse this timer wher respawning two players at the same time
 		FTimerHandle RespawnDelay_TimerHandle;
 		FTimerDelegate RespawnPlayer_Delegate;
 
-		RespawnPlayer_Delegate.BindUFunction(this, "RespawnPlayerElapsed", Player->GetController());
+		RespawnPlayer_Delegate.BindUFunction(this, "RespawnPlayerElapsed", PlayerKilled->GetController());
 
 		GetWorldTimerManager().SetTimer(RespawnDelay_TimerHandle, RespawnPlayer_Delegate, PlayerRespawnDelay, false);
+	}
+
+	TObjectPtr<ASCharacter> PlayerKiller = Cast<ASCharacter>(Killer);
+	if (PlayerKiller)
+	{
+		TObjectPtr<USAttributeComponent> VictimAttribComp =	Cast<USAttributeComponent>(VictimActor->GetComponentByClass(USAttributeComponent::StaticClass()));
+		if (VictimAttribComp)
+		{
+			PlayerKiller->GetPlayerState<ASPlayerState>()->AddCredits(VictimAttribComp->GetCreditsAmountForKill());
+		}
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("OnActorKilled: Victim: %s, Killer: %s"), *GetNameSafe(VictimActor), *GetNameSafe(VictimActor));

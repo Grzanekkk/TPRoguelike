@@ -25,4 +25,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void Interact(APawn* Instigator);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool CanInteract(APawn* Instigator);
 };

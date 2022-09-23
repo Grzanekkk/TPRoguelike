@@ -7,6 +7,8 @@
 #include "SGameplayInterface.h"
 #include "SPickupBase.generated.h"
 
+class USphereComponent;
+
 UCLASS(Abstract)
 class TPROGUELIKE_API ASPickupBase : public AActor, public ISGameplayInterface
 {
@@ -18,6 +20,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Interact_Implementation(APawn* InstigatorPawn);
+
+	virtual bool CanInteract_Implementation(APawn* InstigatorPawn);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Pickup")
 	int32 UseCost = 0;
@@ -33,6 +37,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UStaticMeshComponent> MainMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<USphereComponent> SphereComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
 	TObjectPtr<UParticleSystem> PickUpParticles;

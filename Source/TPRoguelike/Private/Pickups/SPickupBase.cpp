@@ -3,14 +3,21 @@
 
 #include "Pickups/SPickupBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/SphereComponent.h"
+#include "PlayerStates/SPlayerState.h"
 
 // Sets default values
 ASPickupBase::ASPickupBase() 
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
+	SphereComp->SetSphereRadius(64.f);
+	RootComponent = SphereComp;
+
 	MainMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MainMesh"));
-	RootComponent = MainMesh;
+	MainMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	MainMesh->SetupAttachment(RootComponent);
 }
 
 void ASPickupBase::BeginPlay()
@@ -30,20 +37,34 @@ void ASPickupBase::Interact_Implementation(APawn* InstigatorPawn)
 	UsePickupItem(InstigatorPawn);
 }
 
-void ASPickupBase::UsePickupItem(APawn* InstigatorPawn)
+bool ASPickupBase::CanInteract_Implementation(APawn* InstigatorPawn)
 {
 	if (bCanBeInteracted)
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickUpParticles, GetActorLocation());
-		bCanBeInteracted = false;
-		RootComponent->SetVisibility(bCanBeInteracted, true);
-
-		GetWorldTimerManager().SetTimer(InteractionDelay_TimerHandle, this, &ASPickupBase::AllowInteraction, InteractionDelay);
+		if (InstigatorPawn->GetPlayerState<ASPlayerState>()->AddCredits(-UseCost))
+		{
+			return true;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("You dont have enaugh Credits to use this pickup"));
+			return false;
+		}
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Cannot interact right now"));
+		return false;
 	}
+}
+
+void ASPickupBase::UsePickupItem(APawn* InstigatorPawn)
+{
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickUpParticles, GetActorLocation());
+	bCanBeInteracted = false;
+	RootComponent->SetVisibility(bCanBeInteracted, true);
+
+	GetWorldTimerManager().SetTimer(InteractionDelay_TimerHandle, this, &ASPickupBase::AllowInteraction, InteractionDelay);
 }
 
 void ASPickupBase::AllowInteraction()

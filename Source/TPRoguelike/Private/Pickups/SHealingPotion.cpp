@@ -21,7 +21,7 @@ void ASHealingPotion::Interact_Implementation(APawn* InstigatorPawn)
 
 void ASHealingPotion::UsePickupItem(APawn* InstigatorPawn)
 {
-	//Super::UsePotion(InstigatorPawn);
+	Super::UsePickupItem(InstigatorPawn);
 
 	if (bCanBeInteracted)
 	{
