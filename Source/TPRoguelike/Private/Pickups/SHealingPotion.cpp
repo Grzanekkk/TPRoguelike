@@ -1,8 +1,8 @@
 // Made by Jan Puto 2022 :D
 
 
-#include "SHealingPotion.h"
-#include "SAttributeComponent.h"
+#include "Pickups/SHealingPotion.h"
+#include "Components/SAttributeComponent.h"
 
 ASHealingPotion::ASHealingPotion()
 {
@@ -16,10 +16,10 @@ void ASHealingPotion::BeginPlay()
 
 void ASHealingPotion::Interact_Implementation(APawn* InstigatorPawn)
 {
-	UsePotion(InstigatorPawn);
+	UsePickupItem(InstigatorPawn);
 }
 
-void ASHealingPotion::UsePotion(APawn* InstigatorPawn)
+void ASHealingPotion::UsePickupItem(APawn* InstigatorPawn)
 {
 	//Super::UsePotion(InstigatorPawn);
 
@@ -32,7 +32,7 @@ void ASHealingPotion::UsePotion(APawn* InstigatorPawn)
 			{
 				AttributeComponent->ApplyHealthChange(this, HealingAmount);
 
-				ASPotionBase::UsePotion(InstigatorPawn);
+				ASPickupBase::UsePickupItem(InstigatorPawn);
 			}
 		}
 	}

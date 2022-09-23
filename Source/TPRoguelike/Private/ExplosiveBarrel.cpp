@@ -7,7 +7,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Particles/ParticleSystemComponent.h"
-#include "SAttributeComponent.h"
+#include "Components/SAttributeComponent.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 AExplosiveBarrel::AExplosiveBarrel()

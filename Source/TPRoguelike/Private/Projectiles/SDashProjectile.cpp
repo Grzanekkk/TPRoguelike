@@ -1,6 +1,6 @@
 // Made by Jan Puto 2022 :D
 
-#include "SDashProjectile.h"
+#include "Projectiles/SDashProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"

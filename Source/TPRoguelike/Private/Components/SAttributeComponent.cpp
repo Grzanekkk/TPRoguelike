@@ -1,7 +1,7 @@
 // Made by Jan Puto 2022 :D
 
 
-#include "SAttributeComponent.h"
+#include "Components/SAttributeComponent.h"
 #include "GameModes/SGameModeBase.h"
 
 

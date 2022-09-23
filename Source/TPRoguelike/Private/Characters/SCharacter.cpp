@@ -1,15 +1,13 @@
  // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SCharacter.h"
+#include "Characters/SCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "SInteractionComponent.h"
+#include "Components/SInteractionComponent.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "SAttributeComponent.h"
-#include "SProjectileBase.h"
-#include "SDashProjectile.h"
+#include "Components/SAttributeComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SActionComponent.h"
 #include "Kismet/KismetMathLibrary.h"

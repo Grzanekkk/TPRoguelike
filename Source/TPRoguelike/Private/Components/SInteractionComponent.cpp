@@ -1,7 +1,7 @@
 // Made by Jan Puto 2022 :D
 
 
-#include "SInteractionComponent.h"
+#include "Components/SInteractionComponent.h"
 #include "DrawDebugHelpers.h"
 #include "SGameplayInterface.h"
 

@@ -5,31 +5,34 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "SGameplayInterface.h"
-#include "SPotionBase.generated.h"
+#include "SPickupBase.generated.h"
 
 UCLASS(Abstract)
-class TPROGUELIKE_API ASPotionBase : public AActor, public ISGameplayInterface
+class TPROGUELIKE_API ASPickupBase : public AActor, public ISGameplayInterface
 {
 	GENERATED_BODY()
 	
 public:	
-	ASPotionBase();
+	ASPickupBase();
 
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Interact_Implementation(APawn* InstigatorPawn);
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Pickup")
+	int32 UseCost = 0;
+
 protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	virtual void UsePotion(APawn* InstigatorPawn);
+	virtual void UsePickupItem(APawn* InstigatorPawn);
 
 	UFUNCTION()
 	void AllowInteraction();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Components")
-	TObjectPtr<UStaticMeshComponent> PotionMesh;
+	TObjectPtr<UStaticMeshComponent> MainMesh;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Effects|Particles")
 	TObjectPtr<UParticleSystem> PickUpParticles;
@@ -38,7 +41,7 @@ protected:
 	float InteractionDelay = 10.f;
 
 	UPROPERTY()
-	FTimerHandle TH_InteractionDelay;
+	FTimerHandle InteractionDelay_TimerHandle;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Interaction")
 	bool bCanBeInteracted = true;

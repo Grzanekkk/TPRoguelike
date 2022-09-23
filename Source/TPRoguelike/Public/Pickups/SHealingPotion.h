@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SPotionBase.h"
+#include "SPickupBase.h"
 #include "SHealingPotion.generated.h"
 
 UCLASS()
-class TPROGUELIKE_API ASHealingPotion : public ASPotionBase
+class TPROGUELIKE_API ASHealingPotion : public ASPickupBase
 {
 	GENERATED_BODY()
 	
@@ -22,5 +22,5 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void UsePotion(APawn* InstigatorPawn) override;
+	virtual void UsePickupItem(APawn* InstigatorPawn) override;
 };

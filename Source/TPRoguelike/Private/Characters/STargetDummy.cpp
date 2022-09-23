@@ -1,7 +1,8 @@
 // Made by Jan Puto 2022 :D
 
 
-#include "STargetDummy.h"
+#include "Characters/STargetDummy.h"
+#include "Components/SAttributeComponent.h"
 
 // Sets default values
 ASTargetDummy::ASTargetDummy()

@@ -1,7 +1,7 @@
 // Made by Jan Puto 2022 :D
 
 
-#include "Blackhole.h"
+#include "Projectiles/Blackhole.h"
 #include "Components/SphereComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"

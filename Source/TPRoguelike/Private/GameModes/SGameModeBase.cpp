@@ -5,8 +5,8 @@
 #include "EnvironmentQuery/EnvQueryManager.h"
 #include "EnvironmentQuery/EnvQueryInstanceBlueprintWrapper.h"
 #include "AI/SAICharacter.h"
-#include "SCharacter.h"
-#include "SAttributeComponent.h"
+#include "Characters/SCharacter.h"
+#include "Components/SAttributeComponent.h"
 #include "EngineUtils.h"
 #include "DrawDebugHelpers.h"
 

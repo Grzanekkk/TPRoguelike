@@ -1,6 +1,6 @@
 // Made by Jan Puto 2022 :D
 
-#include "SProjectileBase.h"
+#include "Projectiles/SProjectileBase.h"
 #include "Components/SphereComponent.h"
 #include "Components/AudioComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"

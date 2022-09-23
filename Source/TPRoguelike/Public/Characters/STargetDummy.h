@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SAttributeComponent.h"
 #include "GameFramework/Actor.h"
 #include "STargetDummy.generated.h"
+
+class USAttributeComponent;
 
 UCLASS()
 class TPROGUELIKE_API ASTargetDummy : public AActor
@@ -18,10 +19,10 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-	USAttributeComponent* AttributeComp;
+	TObjectPtr<USAttributeComponent> AttributeComp;
 
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* MeshComponent;
+	TObjectPtr<UStaticMeshComponent> MeshComponent;
 
 UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, USAttributeComponent* OwningComp, float NewHealth, float DeltaHealth);

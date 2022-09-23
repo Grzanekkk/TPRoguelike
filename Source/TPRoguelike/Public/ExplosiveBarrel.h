@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "ExplosiveBarrel.generated.h"
 
 class UParticleSystemComponent;
 class UMeshComponent;
 class URadialForceComponent;
+class USphereComponent;
 
 UCLASS()
 class TPROGUELIKE_API AExplosiveBarrel : public AActor

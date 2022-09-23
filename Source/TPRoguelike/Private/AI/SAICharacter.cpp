@@ -4,7 +4,7 @@
 #include "Perception/PawnSensingComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "AIController.h"
-#include "SAttributeComponent.h"
+#include "Components/SAttributeComponent.h"
 #include "BrainComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "UI/SWorldUserWidget.h"

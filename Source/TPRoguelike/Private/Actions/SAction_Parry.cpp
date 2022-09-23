@@ -8,17 +8,12 @@
 
 USAction_Parry::USAction_Parry()
 {
+
 }
 
 void USAction_Parry::StartAction_Implementation(AActor* Instigator)
 {
 	Super::StartAction_Implementation(Instigator);
-
-	//TObjectPtr<USActionComponent> ActionComp = Cast<USActionComponent>(Instigator->GetComponentByClass(USActionComponent::StaticClass()));
-	//if (ActionComp)
-	//{
-	//	ActionComp->ActiveGameplayTags.AddTag(ParryTag);
-	//}
 
 	ParryParticleCompnent = UGameplayStatics::SpawnEmitterAttached(ParryFX, Instigator->GetRootComponent());
 
@@ -35,12 +30,6 @@ void USAction_Parry::StopAction_Implementation(AActor* Instigator)
 	if (IsRunning())
 	{
 		Super::StopAction_Implementation(Instigator);
-
-		//TObjectPtr<USActionComponent> ActionComp = Cast<USActionComponent>(Instigator->GetComponentByClass(USActionComponent::StaticClass()));
-		//if (ActionComp)
-		//{
-		//	ActionComp->ActiveGameplayTags.RemoveTag(ParryTag);
-		//}
 
 		ParryParticleCompnent->Deactivate();
 	}

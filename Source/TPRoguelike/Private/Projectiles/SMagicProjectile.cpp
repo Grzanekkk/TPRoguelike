@@ -1,12 +1,12 @@
 // Made by Jan Puto 2022 :D
 
-#include "SMagicProjectile.h"
-#include "SAttributeComponent.h"
+#include "Projectiles/SMagicProjectile.h"
+#include "Components/SAttributeComponent.h"
 #include "Components/SphereComponent.h"
 #include "Components/SActionComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
-#include "SCharacter.h"
+#include "Characters/SCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "FunctionLibrary/GameplayFunctionLibrary.h"
 

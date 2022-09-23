@@ -3,7 +3,7 @@
 
 #include "Actions/SAction_ProjectileAttack.h"
 #include "GameFramework/Character.h"
-#include "SProjectileBase.h"
+#include "Projectiles/SProjectileBase.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
 

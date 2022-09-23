@@ -63,7 +63,6 @@ public:
 
 	////////////////////////////////////////////////////
 	/// Cheats
-
 	UFUNCTION(Exec)
 	void KillAllAI();
 };
