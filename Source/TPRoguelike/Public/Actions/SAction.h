@@ -32,6 +32,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	FName ActionName = "";
 
+	UPROPERTY(EditDefaultsOnly, Category = "Action")
+	bool bAutoStart = false;
+
 	// We have to override this function so we will have acces to line traces and other world related stuff in blueprint children of this class
 	UWorld* GetWorld() const override;
 
@@ -40,11 +43,11 @@ protected:
 	USActionComponent* GetOuterComponent() const;
 
 	// Tags Added to owning actor when activated, removed when action stops
-	UPROPERTY(EditDefaultsOnly, Category = "Tags")
+	UPROPERTY(EditDefaultsOnly, Category = "Action|Tags")
 	FGameplayTagContainer GrantsTags;
 
 	// Action acn olny atart if Owning Actor has none of these Tags appplied
-	UPROPERTY(EditDefaultsOnly, Category = "Tags")
+	UPROPERTY(EditDefaultsOnly, Category = "Action|Tags")
 	FGameplayTagContainer BlockedTags;
 
 	UPROPERTY()
