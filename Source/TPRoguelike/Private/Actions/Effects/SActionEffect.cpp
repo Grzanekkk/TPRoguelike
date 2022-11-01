@@ -52,5 +52,5 @@ void USActionEffect::StopAction_Implementation(AActor* Instigator)
 
 void USActionEffect::ExecutePeriodicEffect_Implementation(AActor* Instigator)
 {
-	return;
+	// Implemented in children
 }

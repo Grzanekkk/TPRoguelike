@@ -9,6 +9,7 @@
 #include "Characters/SCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "FunctionLibrary/GameplayFunctionLibrary.h"
+#include "Actions/Effects/SActionEffect.h"
 
 // Sets default values
 ASMagicProjectile::ASMagicProjectile()
@@ -40,7 +41,10 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 			return;
 		}
 
-		UGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, SweepResult);
+		if (UGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, SweepResult) && ensure(BurningActionClass))
+		{
+			ActionComp->AddAction(GetInstigator(), BurningActionClass);
+		}
 
 		//UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s, Component: %s"), *GetNameSafe(OtherActor), *GetNameSafe(OverlappedComponent));
 
